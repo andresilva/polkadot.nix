@@ -10,7 +10,7 @@
 - srtool-cli
 - subkey
 - subwasm
-- subxt
+- subxt-cli
 
 ## Development shell
 

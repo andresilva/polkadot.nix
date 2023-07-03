@@ -17,6 +17,7 @@
           srtool-cli = pkgs.callPackage ./pkgs/srtool-cli { };
           subkey = pkgs.callPackage ./pkgs/subkey { };
           subwasm = pkgs.callPackage ./pkgs/subwasm { };
+          subxt-cli = pkgs.callPackage ./pkgs/subxt-cli { };
         };
 
         devShells.default = import ./shell.nix { inherit pkgs; };
