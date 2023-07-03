@@ -14,8 +14,7 @@
       in
       {
         packages = {
-          hello = pkgs.hello;
-          default = pkgs.hello;
+          subwasm = pkgs.callPackage ./pkgs/subwasm { };
         };
 
         devShells.default = import ./shell.nix { inherit pkgs; };
