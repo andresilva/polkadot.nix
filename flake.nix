@@ -14,6 +14,7 @@
       in
       {
         packages = {
+          srtool-cli = pkgs.callPackage ./pkgs/srtool-cli { };
           subwasm = pkgs.callPackage ./pkgs/subwasm { };
         };
 
