@@ -20,3 +20,17 @@ A shell derivation is included that provides a development environment with all 
 [substrate]: https://github.com/paritytech/substrate
 [polkadot]: https://github.com/paritytech/polkadot
 [cumulus]: https://github.com/paritytech/cumulus
+
+## Usage
+
+### Run packages
+
+```
+nix run ".#polkadot"
+```
+
+### Development shell
+
+```
+nix develop
+```
