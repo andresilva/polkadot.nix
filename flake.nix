@@ -4,16 +4,27 @@
   '';
 
   inputs = {
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs-unstable, flake-utils, ... }:
+  outputs = { nixpkgs, flake-utils, fenix, ... }:
     flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs-unstable.legacyPackages.${system};
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ fenix.overlays.default ];
+        };
       in
       {
         packages = {
+          polkadot = pkgs.callPackage ./pkgs/polkadot {
+            inherit (pkgs.darwin.apple_sdk.frameworks) Security SystemConfiguration;
+          };
           srtool-cli = pkgs.callPackage ./pkgs/srtool-cli { };
           subkey = pkgs.callPackage ./pkgs/subkey { };
           subwasm = pkgs.callPackage ./pkgs/subwasm { };
