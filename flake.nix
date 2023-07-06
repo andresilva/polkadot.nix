@@ -13,25 +13,21 @@
   };
 
   outputs = { nixpkgs, flake-utils, fenix, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ fenix.overlays.default ];
-        };
-      in
-      {
-        packages = {
-          polkadot = pkgs.callPackage ./pkgs/polkadot {
-            inherit (pkgs.darwin.apple_sdk.frameworks) Security SystemConfiguration;
+    flake-utils.lib.eachDefaultSystem
+      (system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ fenix.overlays.default ];
           };
-          srtool-cli = pkgs.callPackage ./pkgs/srtool-cli { };
-          subkey = pkgs.callPackage ./pkgs/subkey { };
-          subwasm = pkgs.callPackage ./pkgs/subwasm { };
-          subxt-cli = pkgs.callPackage ./pkgs/subxt-cli { };
-        };
-
-        devShells.default = import ./shell.nix { inherit pkgs; };
-      }
-    );
+        in
+        {
+          packages = import ./pkgs { inherit pkgs; };
+          devShells.default = import ./shell.nix { inherit pkgs; };
+        }
+      )
+    // {
+      overlays.default = final: prev:
+        import ./overlay.nix final (prev.appendOverlays [ fenix.overlays.default ]);
+    };
 }
