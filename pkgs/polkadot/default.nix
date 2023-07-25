@@ -66,7 +66,7 @@ rustPlatform.buildRustPackage rec {
   # this should be fixed with the next polkadot release that includes
   # https://github.com/paritytech/substrate/pull/14570.
   postPatch = ''
-    FAST_UNSTAKE_DIR=/build/cargo-vendor-dir/pallet-fast-unstake-4.0.0-dev
+    FAST_UNSTAKE_DIR=$PWD/../cargo-vendor-dir/pallet-fast-unstake-4.0.0-dev
     FAST_UNSTAKE_DOCIFY_DIR=$FAST_UNSTAKE_DIR/frame/fast-unstake
 
     mkdir -p $FAST_UNSTAKE_DOCIFY_DIR
