@@ -1,37 +1,22 @@
-{ lib
-, fetchFromGitHub
-, fenix
-, makeRustPlatform
+{ fetchFromGitHub
+, lib
 , protobuf
 , rocksdb
+, rustPlatform
+, rustc-wasm32
 , stdenv
 , Security
 , SystemConfiguration
 }:
-
-let
-  rust-toolchain = with fenix; combine [
-    (stable.withComponents [
-      "cargo"
-      "rustc"
-    ])
-    targets.wasm32-unknown-unknown.stable.rust-std
-  ];
-
-  rustPlatform = makeRustPlatform {
-    cargo = rust-toolchain;
-    rustc = rust-toolchain;
-  };
-in
 rustPlatform.buildRustPackage rec {
   pname = "polkadot";
-  version = "1.0.0";
+  version = "1.1.0";
 
   src = fetchFromGitHub {
     owner = "paritytech";
-    repo = "polkadot";
-    rev = "v${version}";
-    hash = "sha256-izm0rpLzwlhpp3dciQ1zj1boWxhgGnNMG5ceZoZQGEE=";
+    repo = "polkadot-sdk";
+    rev = "polkadot-v${version}";
+    hash = "sha256-B9egLeXZ6xGJ5g5+A9KXYGdesN5Gkrr2qQJe/7hwB5I=";
 
     # the build process of polkadot requires a .git folder in order to determine
     # the git commit hash that is being built and add it to the version string.
@@ -55,36 +40,38 @@ rustPlatform.buildRustPackage rec {
   cargoLock = {
     lockFile = ./Cargo.lock;
     outputHashes = {
-      "binary-merkle-tree-4.0.0-dev" = "sha256-J09SHQVOLGStMGONdreI5QZlk+uNNKzWRZpGiNJ+lrk=";
+      "ark-secret-scalar-0.0.2" = "sha256-Nbf77KSsAjDKiFIP5kgzl23fRB+68x1EirNuZlS7jeM=";
+      "common-0.1.0" = "sha256-3OKBPpk0exdlV0N9rJRVIncSrkwdI8bkYL2QNsJl+sY=";
+      "fflonk-0.1.0" = "sha256-MNvlePHQdY8DiOq6w7Hc1pgn7G58GDTeghCKHJdUy7E=";
       "sub-tokens-0.1.0" = "sha256-GvhgZhOIX39zF+TbQWtTCgahDec4lQjH+NqamLFLUxM=";
     };
   };
 
-  # NOTE: the build process currently tries to read some files to generate
-  # documentation from hardcoded paths that aren't compatible with the cargo
-  # vendoring strategy, so we need to manually put them in their expected place.
-  # this should be fixed with the next polkadot release that includes
-  # https://github.com/paritytech/substrate/pull/14570.
-  postPatch = ''
-    FAST_UNSTAKE_DIR=$PWD/../cargo-vendor-dir/pallet-fast-unstake-4.0.0-dev
-    FAST_UNSTAKE_DOCIFY_DIR=$FAST_UNSTAKE_DIR/frame/fast-unstake
+  cargoBuildFlags = [ "-p" "polkadot" ];
 
-    mkdir -p $FAST_UNSTAKE_DOCIFY_DIR
-    cp -r $FAST_UNSTAKE_DIR/src $FAST_UNSTAKE_DOCIFY_DIR
-  '';
+  # NOTE: tests currently fail to compile due to an issue with cargo-auditable
+  # and resolution of features flags, I think related to this:
+  # https://github.com/rust-secure-code/cargo-auditable/issues/66
+  doCheck = false;
+
+  nativeBuildInputs = [
+    rustPlatform.bindgenHook
+    rustc-wasm32
+    rustc-wasm32.llvmPackages.lld
+  ];
 
   buildInputs = lib.optionals stdenv.isDarwin [ Security SystemConfiguration ];
 
-  nativeBuildInputs = [ rustPlatform.bindgenHook ];
-
+  # NOTE: we need to force lld otherwise rust-lld is not found for wasm32 target
+  CARGO_TARGET_WASM32_UNKNOWN_UNKNOWN_LINKER = "lld";
   PROTOC = "${protobuf}/bin/protoc";
   ROCKSDB_LIB_DIR = "${rocksdb}/lib";
 
   meta = with lib; {
     description = "Polkadot Node Implementation";
-    homepage = "https://github.com/paritytech/polkadot";
-    license = licenses.gpl3Plus;
+    homepage = "https://polkadot.network";
+    license = licenses.gpl3Only;
     maintainers = with maintainers; [ andresilva ];
-    platforms = platforms.linux ++ platforms.darwin;
+    platforms = platforms.unix;
   };
 }
