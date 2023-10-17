@@ -9,6 +9,7 @@
 - polkadot
 - srtool-cli
 - subkey
+- subrpc
 - subwasm
 - subxt-cli
 
