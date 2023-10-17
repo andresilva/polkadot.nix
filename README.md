@@ -2,7 +2,7 @@
   <img width="320" src="img/nix-polkadot.png" alt="nix-polkadot logo">
 </p>
 
-**nix-polkadot** is a collection of Nix packages related to the [**Polkadot**](https://polkadot.network/) ecosystem.
+**polkadot.nix** is a collection of Nix packages related to the [**Polkadot**](https://polkadot.network/) ecosystem.
 
 ## Packages
 
@@ -22,6 +22,8 @@ A shell derivation is included that provides a development environment with all 
 [cumulus]: https://github.com/paritytech/cumulus
 
 ## Usage
+
+You need to enable flakes support (https://nixos.wiki/wiki/Flakes#Enable_flakes).
 
 ### Run packages
 
