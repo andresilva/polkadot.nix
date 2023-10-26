@@ -47,6 +47,8 @@ rustPlatform.buildRustPackage rec {
     };
   };
 
+  buildType = "production";
+
   cargoBuildFlags = [ "-p" "polkadot" ];
 
   # NOTE: tests currently fail to compile due to an issue with cargo-auditable
