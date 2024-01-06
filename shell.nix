@@ -15,7 +15,7 @@ let
   mold = pkgs.wrapBintoolsWith { bintools = pkgs.mold; };
 in
 with pkgs; mkShell {
-  buildInputs = [
+  packages = [
     clang
     openssl
     pkg-config
