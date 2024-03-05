@@ -7,19 +7,19 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "subrpc";
-  version = "0.5.0";
+  version = "0.6.0";
 
   src = fetchFromGitHub {
     owner = "chevdor";
     repo = "subrpc";
     rev = "v${version}";
-    hash = "sha256-hxczIUZxPQ0J9T23Rle61Ky08aQKxHuSraA+z3mfaAM=";
+    hash = "sha256-7FuOJpYMTwTSonJ4COw5BRN8h3tMJEH3z2B57tpmmHE=";
   };
 
   cargoLock = {
     lockFile = ./Cargo.lock;
     outputHashes = {
-      "jsonrpsee-0.17.0" = "sha256-pnO02JChVcOaueMWyN16dZUn3wHxjgFgn/My7qH/pYI=";
+      "jsonrpsee-0.21.0" = "sha256-v6gaDFYdJtm5Do8Q44Cen5frjWSIYF788XEQS4XC8GE=";
     };
   };
 
