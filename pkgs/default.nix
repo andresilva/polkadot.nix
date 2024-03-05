@@ -10,4 +10,5 @@
   subwasm = pkgs.callPackage ./subwasm { };
   subxt-cli = pkgs.callPackage ./subxt-cli { };
   zepter = pkgs.callPackage ./zepter { };
+  zombienet = pkgs.zombienet.default;
 }
