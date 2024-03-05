@@ -9,4 +9,5 @@
   subrpc = pkgs.callPackage ./subrpc { };
   subwasm = pkgs.callPackage ./subwasm { };
   subxt-cli = pkgs.callPackage ./subxt-cli { };
+  zepter = pkgs.callPackage ./zepter { };
 }
