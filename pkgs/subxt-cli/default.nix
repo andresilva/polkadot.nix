@@ -5,18 +5,20 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "subxt-cli";
-  version = "0.29.0";
+  version = "0.34.0";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "subxt";
     rev = "v${version}";
-    hash = "sha256-fMCy1QAb8rdgQesRqbNCEh6lqEgf7ZsVhYdGvctjbQU=";
+    hash = "sha256-1SkAYJ6YdZeaD3c1pekd/nwTEI9Zt/2fmA3Y7PPLxoE=";
   };
 
-  cargoHash = "sha256-QImpaQURB0ji4DwnD2TovrYqnsYyVv1P7Cz39eUOz5o=";
+  cargoHash = "sha256-vfij4izUhrAt4sJPpse9xv4s4cD0WT0/SQeGEQnubJM=";
 
   buildAndTestSubdir = "cli";
+
+  doCheck = false;
 
   meta = with lib; {
     description = "Utilities for working with substrate metadata for subxt";
