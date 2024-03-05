@@ -6,21 +6,20 @@
 
 ## Packages
 
-- polkadot
-- srtool-cli
-- subkey
-- subrpc
-- subwasm
-- subxt-cli
+- [polkadot](https://github.com/paritytech/polkadot-sdk/tree/master/polkadot)
+- [srtool-cli](https://github.com/chevdor/srtool-cli)
+- [subalfred](https://github.com/hack-ink/subalfred)
+- [subkey](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/bin/utils/subkey)
+- [subrpc](https://github.com/chevdor/subrpc)
+- [subwasm](https://github.com/chevdor/subwasm)
+- [subxt-cli](https://github.com/paritytech/subxt/tree/master/cli)
+- [zepter](https://github.com/ggwpez/zepter)
+- [zombienet](https://github.com/paritytech/zombienet)
 
 ## Development shell
 
 A shell derivation is included that provides a development environment with all the requirements necessary to build
-[substrate][substrate], [polkadot][polkadot] and [cumulus][cumulus].
-
-[substrate]: https://github.com/paritytech/substrate
-[polkadot]: https://github.com/paritytech/polkadot
-[cumulus]: https://github.com/paritytech/cumulus
+[polkadot-sdk](https://github.com/paritytech/polkadot-sdk).
 
 ## Usage
 
