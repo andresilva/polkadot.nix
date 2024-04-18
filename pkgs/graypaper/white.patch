@@ -1,0 +1,22 @@
+diff --git a/graypaper.tex b/graypaper.tex
+index 42275eb..5499688 100644
+--- a/graypaper.tex
++++ b/graypaper.tex
+@@ -1,7 +1,5 @@
+ \documentclass[9pt,oneside]{amsart}
+ \input{preamble.tex}
+-\pagecolor{verydarkgray}
+-\color{white}
+ 
+ %\pagecolor{white}
+ %\AddToShipoutPicture{
+@@ -17,7 +15,9 @@
+ 
+ \input{text/abstract.tex}
+ \begin{center}
++    \colorbox{verydarkgray}{
+     \includegraphics[width=10cm]{assets/jam-pen-back.png}
++    }
+ \end{center}
+ \vskip10pt
+ \maketitle

@@ -6,6 +6,7 @@
 
 ## Packages
 
+- [graypaper](https://github.com/gavofyork/graypaper)
 - [polkadot](https://github.com/paritytech/polkadot-sdk/tree/master/polkadot)
 - [srtool-cli](https://github.com/chevdor/srtool-cli)
 - [subalfred](https://github.com/hack-ink/subalfred)

@@ -1,6 +1,7 @@
 { pkgs }:
 
 {
+  graypaper = pkgs.callPackage ./graypaper { };
   polkadot = pkgs.callPackage ./polkadot {
     inherit (pkgs.darwin.apple_sdk.frameworks) Security SystemConfiguration;
   };
