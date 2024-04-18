@@ -23,7 +23,7 @@ runCommand "graypaper"
   xelatex graypaper.tex
   mv graypaper.pdf $out/share/doc/graypaper
 
-  patch -p1 < ${./white.patch}
+  patch -p1 < ${./printer-friendly.patch}
   xelatex graypaper.tex
-  mv graypaper.pdf $out/share/doc/graypaper/graypaper-white.pdf
+  mv graypaper.pdf $out/share/doc/graypaper/graypaper-printer-friendly.pdf
 ''
