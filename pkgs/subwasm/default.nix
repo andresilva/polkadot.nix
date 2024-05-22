@@ -1,10 +1,23 @@
 { lib
 , fetchFromGitHub
+, rustPlatform
+, writeShellApplication
+, coreutils
+, libfaketime
 , openssl
 , pkg-config
-, rustPlatform
 }:
 
+let
+  fake-date = writeShellApplication {
+    name = "date";
+    runtimeInputs = [ coreutils libfaketime ];
+    text = ''
+      source_date="$(date --utc --date=@"$SOURCE_DATE_EPOCH" "+%F %T")"
+      faketime -f "$source_date" date "$@"
+    '';
+  };
+in
 rustPlatform.buildRustPackage rec {
   pname = "subwasm";
   version = "0.21.2";
@@ -36,7 +49,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-gfmhnFIzhYBS5GaiiqI2Hvbq+dygHlV5Ni/SW3D6ljc=";
 
-  nativeBuildInputs = [ pkg-config ];
+  nativeBuildInputs = [ fake-date pkg-config ];
   buildInputs = [ openssl ];
 
   doCheck = false;
