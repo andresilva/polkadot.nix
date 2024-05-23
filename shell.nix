@@ -14,9 +14,8 @@ let
   ];
   mold = pkgs.wrapBintoolsWith { bintools = pkgs.mold; };
 in
-with pkgs; mkShell {
+with pkgs; mkShell.override { stdenv = clangStdenv; } {
   packages = [
-    clang
     openssl
     pkg-config
     rust-toolchain
