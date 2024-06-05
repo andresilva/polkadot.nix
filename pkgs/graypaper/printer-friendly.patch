@@ -1,16 +1,24 @@
 diff --git a/graypaper.tex b/graypaper.tex
-index 42275eb..5499688 100644
+index 645904f..8187354 100644
 --- a/graypaper.tex
 +++ b/graypaper.tex
-@@ -1,7 +1,5 @@
+@@ -1,23 +1,15 @@
  \documentclass[9pt,oneside]{amsart}
  \input{preamble.tex}
 -\pagecolor{verydarkgray}
 -\color{white}
  
  %\pagecolor{white}
- %\AddToShipoutPicture{
-@@ -17,7 +15,9 @@
+-\AddToShipoutPicture{
+-  \checkoddpage
+-  \ifoddpage
+-    \put(-1 mm,0){\includegraphics[width=\paperwidth,height=\paperheight]{assets/grayr.png}}
+-  \else
+-    \put(-1 mm,0){\includegraphics[width=\paperwidth,height=\paperheight]{assets/grayl.png}}
+-\fi
+-}
+ 
+ \begin{document}
  
  \input{text/abstract.tex}
  \begin{center}

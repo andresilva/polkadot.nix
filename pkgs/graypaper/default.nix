@@ -5,12 +5,12 @@
 
 runCommand "graypaper"
 {
-  version = "unstable-2024-04-18";
+  version = "unstable-2024-05-29";
   src = fetchFromGitHub {
     owner = "gavofyork";
     repo = "graypaper";
-    rev = "3222bb39f3d6121c7fe86fa33a9620d43b558476";
-    sha256 = "1vgygikw8bzkh0wkg743xbfaw361f8kammlf5zggn2w5wcgkzl6f";
+    rev = "5efa7278d767792b925800b6288f197c8afdc5af";
+    sha256 = "16w2aqi02962p0s3rh6m1xbmj3cg327hj5lpix4vv1p6ygwhrckh";
   };
   nativeBuildInputs = [ texliveFull ];
 } ''
