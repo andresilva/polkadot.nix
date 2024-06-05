@@ -1,32 +1,19 @@
 { lib
 , fetchFromGitHub
 , rustPlatform
-, writeShellApplication
-, coreutils
-, libfaketime
 , openssl
 , pkg-config
 }:
 
-let
-  fake-date = writeShellApplication {
-    name = "date";
-    runtimeInputs = [ coreutils libfaketime ];
-    text = ''
-      source_date="$(date --utc --date=@"$SOURCE_DATE_EPOCH" "+%F %T")"
-      faketime -f "$source_date" date "$@"
-    '';
-  };
-in
 rustPlatform.buildRustPackage rec {
   pname = "subwasm";
-  version = "0.21.2";
+  version = "0.21.3";
 
   src = fetchFromGitHub {
     owner = "chevdor";
     repo = "subwasm";
     rev = "v${version}";
-    hash = "sha256-ayD1exyU0HTc13UD1oLJdhZPLqgBPLfZQSKajmn7s0I=";
+    hash = "sha256-cBy/gkJjZjODcuzniYztZJNUSbujmUsr2ma5XADRcMU=";
 
     # the build process of subwasm requires a .git folder in order to determine
     # the git commit hash that is being built and add it to the version string.
@@ -47,9 +34,9 @@ rustPlatform.buildRustPackage rec {
     rm .git_commit
   '';
 
-  cargoHash = "sha256-gfmhnFIzhYBS5GaiiqI2Hvbq+dygHlV5Ni/SW3D6ljc=";
+  cargoHash = "sha256-XWcNONLjoEb0+6gEut8teIbQlZQt6x+++3AXUGcMrxQ=";
 
-  nativeBuildInputs = [ fake-date pkg-config ];
+  nativeBuildInputs = [ pkg-config ];
   buildInputs = [ openssl ];
 
   doCheck = false;
