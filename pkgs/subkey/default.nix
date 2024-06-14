@@ -9,23 +9,22 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "subkey";
-  version = "polkadot-v1.12.0";
+  version = "polkadot-v1.13.0";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "polkadot-sdk";
     rev = version;
-    hash = "sha256-/m7Tg+9JHbnwKwWPY8gWIJkIHktGFlqcrbLLgNWjfwU=";
+    hash = "sha256-9iJRkaI8J1jjrM37ol/qPxZwTgLvMPrTRMR+gpL90Yg=";
   };
 
   cargoLock = {
     lockFile = ./Cargo.lock;
     outputHashes = {
       "ark-secret-scalar-0.0.2" = "sha256-91sODxaj0psMw0WqigMCGO5a7+NenAsRj5ZmW6C7lvc=";
-      "ckb-merkle-mountain-range-0.6.0" = "sha256-oTe1l406lTpgOefPai664JYwzezLjkIDXpiZTfjbd28=";
       "common-0.1.0" = "sha256-LHz2dK1p8GwyMimlR7AxHLz1tjTYolPwdjP7pxork1o=";
       "fflonk-0.1.0" = "sha256-+BvZ03AhYNP0D8Wq9EMsP+lSgPA6BBlnWkoxTffVLwo=";
-      "litep2p-0.3.0" = "sha256-y0my2vi0+2CWNOtCh/vtsUbIcU1iNSFAJbLiCktEcOc=";
+      "simple-mermaid-0.1.0" = "sha256-IekTldxYq+uoXwGvbpkVTXv2xrcZ0TQfyyE2i2zH+6w=";
       "sp-ark-bls12-381-0.4.2" = "sha256-nNr0amKhSvvI9BlsoP+8v6Xppx/s7zkf0l9Lm3DW8w8=";
       "sp-crypto-ec-utils-0.4.1" = "sha256-/Sw1ZM/JcJBokFE4y2mv/P43ciTL5DEm0PDG0jZvMkI=";
     };
