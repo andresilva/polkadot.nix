@@ -1,30 +1,22 @@
 diff --git a/graypaper.tex b/graypaper.tex
-index 645904f..8187354 100644
+index ee1dc24..58be20d 100644
 --- a/graypaper.tex
 +++ b/graypaper.tex
-@@ -1,23 +1,15 @@
+@@ -1,15 +1,13 @@
  \documentclass[9pt,oneside]{amsart}
  \input{preamble.tex}
+ 
 -\pagecolor{verydarkgray}
 -\color{white}
- 
- %\pagecolor{white}
--\AddToShipoutPicture{
--  \checkoddpage
--  \ifoddpage
--    \put(-1 mm,0){\includegraphics[width=\paperwidth,height=\paperheight]{assets/grayr.png}}
--  \else
--    \put(-1 mm,0){\includegraphics[width=\paperwidth,height=\paperheight]{assets/grayl.png}}
--\fi
--}
- 
+-\makegpbackground
+-
  \begin{document}
  
  \input{text/abstract.tex}
  \begin{center}
-+    \colorbox{verydarkgray}{
++  \colorbox{verydarkgray}{
      \includegraphics[width=10cm]{assets/jam-pen-back.png}
-+    }
++  }
  \end{center}
  \vskip10pt
  \maketitle

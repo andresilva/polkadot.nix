@@ -3,14 +3,17 @@
 , texliveFull
 }:
 
-runCommand "graypaper"
-{
-  version = "unstable-2024-05-29";
+let
+  version = "0.3.5";
+in
+runCommand "graypaper" {
+  inherit version;
+
   src = fetchFromGitHub {
     owner = "gavofyork";
     repo = "graypaper";
-    rev = "5efa7278d767792b925800b6288f197c8afdc5af";
-    sha256 = "16w2aqi02962p0s3rh6m1xbmj3cg327hj5lpix4vv1p6ygwhrckh";
+    rev = "v${version}";
+    hash = "sha256-F97m7ka9D9iavJ5R2xWIH7LTH8P/brGc+kcY++BSpOs=";
   };
   nativeBuildInputs = [ texliveFull ];
 } ''
@@ -20,10 +23,10 @@ runCommand "graypaper"
   cp -r $src/* $TMP
   cd $TMP
 
-  xelatex graypaper.tex
-  mv graypaper.pdf $out/share/doc/graypaper
+  xelatex -halt-on-error graypaper.tex
+  mv graypaper.pdf $out/share/doc/graypaper/graypaper-${version}.pdf
 
   patch -p1 < ${./printer-friendly.patch}
-  xelatex graypaper.tex
-  mv graypaper.pdf $out/share/doc/graypaper/graypaper-printer-friendly.pdf
+  xelatex -halt-on-error graypaper.tex
+  mv graypaper.pdf $out/share/doc/graypaper/graypaper-${version}-printer-friendly.pdf
 ''
