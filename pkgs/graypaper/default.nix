@@ -4,7 +4,7 @@
 }:
 
 let
-  version = "0.3.6";
+  version = "0.3.7";
 in
 runCommand "graypaper" {
   inherit version;
@@ -13,7 +13,7 @@ runCommand "graypaper" {
     owner = "gavofyork";
     repo = "graypaper";
     rev = "v${version}";
-    hash = "sha256-Pvk5DgZeRjsen6C4DKZCq1B6ukyiczvSywPRSk22dmA=";
+    hash = "sha256-fKW4ia/bFuC0RRVjWw9/eU+AucKOgMkCJOTrkDg8riI=";
   };
   nativeBuildInputs = [ texliveFull ];
 } ''
