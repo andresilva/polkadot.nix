@@ -1,20 +1,23 @@
 { pkgs }:
 
 let
-  rust-toolchain = with pkgs.fenix; combine [
-    (stable.withComponents [
-      "cargo"
-      "clippy"
-      "rust-analyzer"
-      "rust-src"
-      "rustc"
-    ])
-    (latest.withComponents [ "rustfmt" ])
-    targets.wasm32-unknown-unknown.stable.rust-std
-  ];
+  rust-toolchain =
+    with pkgs.fenix;
+    combine [
+      (stable.withComponents [
+        "cargo"
+        "clippy"
+        "rust-analyzer"
+        "rust-src"
+        "rustc"
+      ])
+      (latest.withComponents [ "rustfmt" ])
+      targets.wasm32-unknown-unknown.stable.rust-std
+    ];
   mold = pkgs.wrapBintoolsWith { bintools = pkgs.mold; };
 in
-with pkgs; mkShell.override { stdenv = clangStdenv; } {
+with pkgs;
+mkShell.override { stdenv = clangStdenv; } {
   packages = [
     openssl
     pkg-config

@@ -16,22 +16,38 @@
     };
   };
 
-  outputs = { nixpkgs, flake-utils, fenix, zombienet, ... }:
-    flake-utils.lib.eachDefaultSystem
-      (system:
-        let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [ fenix.overlays.default zombienet.overlays.default ];
-          };
-        in
-        {
-          packages = import ./pkgs { inherit pkgs; };
-          devShells.default = import ./shell.nix { inherit pkgs; };
-        }
-      )
+  outputs =
+    {
+      nixpkgs,
+      flake-utils,
+      fenix,
+      zombienet,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            fenix.overlays.default
+            zombienet.overlays.default
+          ];
+        };
+      in
+      {
+        packages = import ./pkgs { inherit pkgs; };
+        devShells.default = import ./shell.nix { inherit pkgs; };
+      }
+    )
     // {
-      overlays.default = final: prev:
-        import ./overlay.nix final (prev.appendOverlays [ fenix.overlays.default zombienet.overlays.default ]);
+      overlays.default =
+        final: prev:
+        import ./overlay.nix final (
+          prev.appendOverlays [
+            fenix.overlays.default
+            zombienet.overlays.default
+          ]
+        );
     };
 }

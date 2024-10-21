@@ -1,10 +1,11 @@
-{ lib
-, fetchFromGitHub
-, openssl
-, pkg-config
-, protobuf
-, rocksdb
-, rustPlatform
+{
+  lib,
+  fetchFromGitHub,
+  openssl,
+  pkg-config,
+  protobuf,
+  rocksdb,
+  rustPlatform,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -25,7 +26,11 @@ rustPlatform.buildRustPackage rec {
     };
   };
 
-  nativeBuildInputs = [ pkg-config rustPlatform.bindgenHook ];
+  nativeBuildInputs = [
+    pkg-config
+    rustPlatform.bindgenHook
+  ];
+
   buildInputs = [ openssl ];
 
   buildAndTestSubdir = "substrate/bin/utils/subkey";
