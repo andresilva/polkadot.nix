@@ -5,7 +5,7 @@
 }:
 
 let
-  version = "0.4.2";
+  version = "0.4.3";
 in
 runCommand "graypaper"
   {
@@ -15,7 +15,7 @@ runCommand "graypaper"
       owner = "gavofyork";
       repo = "graypaper";
       rev = "v${version}";
-      hash = "sha256-DHctlaMmx5U26UaccHcJi5gnS0wYHF9CjWRxdcKsh6g=";
+      hash = "sha256-PJV60fGCnZByN7s2uMQYFNcZGvFqf9KuPD7/MnhX+NY=";
     };
     nativeBuildInputs = [ texliveFull ];
   }
