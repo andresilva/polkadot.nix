@@ -1,7 +1,7 @@
 {
   fetchFromGitHub,
   runCommand,
-  texliveFull,
+  texliveBasic,
 }:
 
 let
@@ -17,7 +17,33 @@ runCommand "graypaper"
       rev = "v${version}";
       hash = "sha256-PJV60fGCnZByN7s2uMQYFNcZGvFqf9KuPD7/MnhX+NY=";
     };
-    nativeBuildInputs = [ texliveFull ];
+    nativeBuildInputs = [
+      (texliveBasic.withPackages (
+        ps: with ps; [
+          biber
+          biblatex
+          booktabs
+          caption
+          cellspace
+          changepage
+          collection-fontsextra
+          eso-pic
+          jknapltx
+          makecell
+          mathabx
+          mathtools
+          mnsymbol
+          multirow
+          pagecolor
+          pgf
+          relsize
+          stackengine
+          subfig
+          units
+          xetex
+        ]
+      ))
+    ];
   }
   ''
     mkdir -p $out/share/doc/graypaper
