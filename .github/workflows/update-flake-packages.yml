@@ -1,0 +1,18 @@
+name: "Update flake packages ❄️"
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 * * *"
+jobs:
+  update-flake-packages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix
+        uses: cachix/install-nix-action@v30
+      - name: Update flake packages
+        uses: selfuryon/nix-update-action@v1.0.1
+        with:
+          blacklist: "polkadot,subkey,zombienet"
+          pr-title: "bot: update packages"
