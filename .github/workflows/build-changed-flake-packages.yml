@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Install nix
         uses: cachix/install-nix-action@v30
       - name: Determine changed packages
@@ -22,7 +24,7 @@ jobs:
           done
           echo "changed_packages=${changed_packages[*]}" >> $GITHUB_ENV
       - name: Build changed flake packages
-        if: env.changed_packages != ""
+        if: env.changed_packages != ''
         run: |
           for package in $changed_packages; do
             echo "Building package: x86_64-linux.$package"
