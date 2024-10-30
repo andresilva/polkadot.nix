@@ -28,5 +28,5 @@ jobs:
         run: |
           for package in $changed_packages; do
             echo "Building package: x86_64-linux.$package"
-            nix build .#packages.x86_64-linux.$package || exit 1
+            nix build .#packages.x86_64-linux.$package -L || exit 1
           done
