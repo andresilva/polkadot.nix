@@ -13,6 +13,8 @@ jobs:
         uses: cachix/install-nix-action@v30
       - name: Update flake packages
         uses: selfuryon/nix-update-action@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           blacklist: "polkadot,subkey,zombienet"
           pr-title: "bot: update packages"
