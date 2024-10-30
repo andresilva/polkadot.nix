@@ -1,6 +1,8 @@
 name: "Build changed flake packages ❄️"
 on:
   pull_request:
+    branches:
+      - master
 jobs:
   build-changed-flake-packages:
     runs-on: ubuntu-latest
