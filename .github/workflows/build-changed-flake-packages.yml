@@ -1,0 +1,32 @@
+name: "Build changed flake packages ❄️"
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  build-changed-flake-packages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install nix
+        uses: cachix/install-nix-action@v30
+      - name: Determine changed packages
+        id: changes
+        run: |
+          changed_packages=()
+          for package in $(nix flake show --json | jq -r '.packages."x86_64-linux" | keys[]'); do
+            if git diff --name-only "HEAD^" "HEAD" | grep -q "$package"; then
+              changed_packages+=("$package")
+            fi
+          done
+          echo "changed_packages=${changed_packages[*]}" >> $GITHUB_ENV
+      - name: Build changed flake packages
+        if: env.changed_packages != ''
+        run: |
+          for package in $changed_packages; do
+            echo "Building package: x86_64-linux.$package"
+            nix build .#packages.x86_64-linux.$package -L || exit 1
+          done
