@@ -1,0 +1,101 @@
+# Forked from https://github.com/selfuryon/nix-update-action
+name: 'nix-update action'
+description: 'A GitHub action that detects and updates flake outputs via nix-update tool'
+inputs:
+  token:
+    description: 'The token that the action will use to create and update the pull request.'
+    default: ${{ github.token }}
+  packages:
+    description: 'A space-separated list of inputs to update. Leave empty to update all inputs.'
+    required: false
+    default: ''
+  blacklist:
+    description: 'A list of dependencies, comma separated, to skip from updating.'
+    required: false
+    default: ''
+  branch:
+    description: 'The branch of the PR to be created'
+    required: false
+    default: "chore/nix_update_actions"
+  path-to-flake-dir:
+    description: 'The path of the directory containing `flake.nix` file within your repository.'
+    required: false
+    default: ''
+  pr-title:
+    description: 'The title of the PR to be created'
+    required: false
+    default: "Packages: update"
+  pr-body:
+    description: 'The body of the PR to be created'
+    required: false
+    default: |
+      Automated changes by the [nix-update-actions](https://github.com/selfuryon/nix-update-action) GitHub Action.
+  pr-labels:
+    description: 'A comma or newline separated list of labels to set on the Pull Request to be created'
+    required: false
+    default: ''
+  pr-assignees:
+    description: 'A comma or newline separated list of assignees (GitHub usernames).'
+    required: false
+    default: ''
+  pr-reviewers:
+    description: 'A comma or newline separated list of reviewers (GitHub usernames) to request a review from.'
+    required: false
+    default: ''
+  git-author-name:
+    description: 'Author name used for commit.'
+    required: false
+    default: 'github-actions[bot]'
+  git-author-email:
+    description: 'Author email used for commit.'
+    required: false
+    default: 'github-actions[bot]@users.noreply.github.com'
+  git-committer-name:
+    description: 'Committer name used for commit.'
+    required: false
+    default: 'github-actions[bot]'
+  git-committer-email:
+    description: 'Committer email used for commit.'
+    required: false
+    default: 'github-actions[bot]@users.noreply.github.com'
+outputs:
+  pull-request-number:
+    description: 'The number of the opened pull request'
+    value: ${{ steps.create-pr.outputs.pull-request-number }}
+runs:
+  using: "composite"
+  steps:
+    - uses: yaxitech/nix-install-pkgs-action@v3
+      with:
+        packages: "nix-update,jq"
+        inputs-from: nixpkgs
+    - name: Set environment variables
+      shell: bash
+      run: |
+        echo "GIT_AUTHOR_NAME=${{ inputs.git-author-name }}" >> $GITHUB_ENV
+        echo "GIT_AUTHOR_EMAIL=<${{ inputs.git-author-email }}>" >> $GITHUB_ENV
+        echo "GIT_COMMITTER_NAME=${{ inputs.git-committer-name }}" >> $GITHUB_ENV
+        echo "GIT_COMMITTER_EMAIL=<${{ inputs.git-committer-email }}>" >> $GITHUB_ENV
+    - name: Run nix-update
+      run: $GITHUB_ACTION_PATH/nix-update.sh
+      shell: bash
+      env:
+        PACKAGES: ${{ inputs.packages }}
+        BLACKLIST: ${{ inputs.blacklist }}
+        GIT_AUTHOR_NAME: ${{ env.GIT_AUTHOR_NAME }}
+        GIT_AUTHOR_EMAIL: ${{ env.GIT_AUTHOR_EMAIL }}
+        GIT_COMMITTER_NAME: ${{ env.GIT_COMMITTER_NAME }}
+        GIT_COMMITTER_EMAIL: ${{ env.GIT_COMMITTER_EMAIL }}
+        PATH_TO_FLAKE_DIR: ${{ inputs.path-to-flake-dir }}
+    - name: Create PR
+      id: create-pr
+      uses: peter-evans/create-pull-request@v4
+      with:
+        token: ${{ inputs.token }}
+        branch: ${{ inputs.branch }}
+        delete-branch: true
+        title: ${{ inputs.pr-title }}
+        assignees: ${{ inputs.pr-assignees }}
+        labels: ${{ inputs.pr-labels }}
+        reviewers: ${{ inputs.pr-reviewers }}
+        body: ${{ inputs.pr-body }}
