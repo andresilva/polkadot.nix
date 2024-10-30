@@ -13,3 +13,5 @@ jobs:
         uses: cachix/install-nix-action@v30
       - name: Update flake packages
         uses: selfuryon/nix-update-action@v1.0.1
+        with:
+          blacklist: "polkadot,subkey,zombienet"
