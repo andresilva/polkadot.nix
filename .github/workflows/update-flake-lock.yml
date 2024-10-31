@@ -2,7 +2,7 @@ name: "Update flake.lock ❄️"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 10 * * *"
+    - cron: "0 9 * * *"
 jobs:
   update-flake-lock:
     runs-on: ubuntu-latest
