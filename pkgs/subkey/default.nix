@@ -10,13 +10,13 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "subkey";
-  version = "stable2409-1";
+  version = "stable2409-2";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "polkadot-sdk";
     rev = "polkadot-${version}";
-    hash = "sha256-XdkXXRCh9+PWjhc895acnXSTXUbqY6NhMVtYjW08/7s=";
+    hash = "sha256-M3Y7ourwOdDf2B42Q/eb8BCUtbOqy0sei3egb4ybrDc=";
   };
 
   cargoLock = {
