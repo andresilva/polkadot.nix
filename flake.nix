@@ -5,7 +5,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    systems.url = "github:nix-systems/default";
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,35 +20,39 @@
     {
       self,
       nixpkgs,
-      flake-utils,
+      systems,
       fenix,
       zombienet,
       ...
     }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs {
+    let
+      mkPkgs =
+        system:
+        import nixpkgs {
           inherit system;
           overlays = [
             fenix.overlays.default
             zombienet.overlays.default
           ];
         };
-      in
-      {
-        checks = {
+      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f system (mkPkgs system));
+    in
+    {
+      checks = eachSystem (
+        system: pkgs: {
           buildAll = pkgs.symlinkJoin {
             name = "build-all-packages";
             paths = builtins.attrValues self.packages.${system};
           };
-        };
-        devShells = {
+        }
+      );
+      devShells = eachSystem (
+        system: pkgs: {
           default = import ./shell.nix { inherit pkgs; };
-        };
-        packages = import ./pkgs { inherit pkgs; };
-      }
-    )
+        }
+      );
+      packages = eachSystem (system: pkgs: import ./pkgs { inherit pkgs; });
+    }
     // {
       overlays = {
         default =
