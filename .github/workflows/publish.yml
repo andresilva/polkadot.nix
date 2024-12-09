@@ -1,4 +1,4 @@
-name: "Build and push binaries to cachix"
+name: "Build and publish to Cachix and FlakeHub ❄️"
 on:
   push:
     branches:
@@ -6,12 +6,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install nix
         uses: cachix/install-nix-action@v30
-      - name: Setup cachix action
+      - name: Setup cachix
         uses: cachix/cachix-action@v14
         with:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
@@ -20,3 +23,9 @@ jobs:
         run: nix flake check
       - name: Nix flake develop
         run: nix develop
+      - name: Publish to FlakeHub
+        uses: DeterminateSystems/flakehub-push@main
+        with:
+          name: "andresilva/polkadot.nix"
+          rolling: true
+          visibility: public
