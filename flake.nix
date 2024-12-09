@@ -18,6 +18,7 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       flake-utils,
       fenix,
@@ -36,18 +37,28 @@
         };
       in
       {
+        checks = {
+          buildAll = pkgs.symlinkJoin {
+            name = "build-all-packages";
+            paths = builtins.attrValues self.packages.${system};
+          };
+        };
+        devShells = {
+          default = import ./shell.nix { inherit pkgs; };
+        };
         packages = import ./pkgs { inherit pkgs; };
-        devShells.default = import ./shell.nix { inherit pkgs; };
       }
     )
     // {
-      overlays.default =
-        final: prev:
-        import ./overlay.nix final (
-          prev.appendOverlays [
-            fenix.overlays.default
-            zombienet.overlays.default
-          ]
-        );
+      overlays = {
+        default =
+          final: prev:
+          import ./overlay.nix final (
+            prev.appendOverlays [
+              fenix.overlays.default
+              zombienet.overlays.default
+            ]
+          );
+      };
     };
 }
