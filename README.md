@@ -19,7 +19,7 @@
 
 ## Usage
 
-You need to enable flakes support (https://nixos.wiki/wiki/Flakes#Enable_flakes).
+You need to [enable](https://nixos.wiki/wiki/Flakes#Enable_flakes) flakes support.
 
 You can use polkadot.nix as a standalone flake or integrate it into your existing nix flake project.
 
