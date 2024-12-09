@@ -17,23 +17,113 @@
 - [zepter](https://github.com/ggwpez/zepter)
 - [zombienet](https://github.com/paritytech/zombienet)
 
+## Usage
+
+You need to enable flakes support (https://nixos.wiki/wiki/Flakes#Enable_flakes).
+
+You can use polkadot.nix as a standalone flake or integrate it into your existing nix flake project.
+
+### Running directly via `nix run`
+
+```sh
+nix run "github:andresilva/polkadot.nix#polkadot"
+```
+
+This will build and run the polkadot package from the flake. Check all available outputs with:
+
+```sh
+nix flake show "github:andresilva/polkadot.nix"
+```
+
+### Integrate into existing flake
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs";
+    polkadot.url = "github:andresilva/polkadot.nix";
+    polkadot.inputs.nixpkgs.follows = "nixpkgs";
+  };
+  outputs =
+    { nixpkgs, polkadot, ... }:
+    let
+      system = "x86_64-linux";
+    in
+    {
+      devShells.${system}.default = nixpkgs.legacyPackages.${system}.mkShell {
+        buildInputs = [ polkadot.packages.${system}.polkadot ];
+      };
+    };
+}
+```
+
+## Overlay
+
+You can use polkadot.nix as an overlay to seamlessly integrate all Polkadot packages into your existing nixpkgs environment.
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs";
+    polkadot.url = "github:andresilva/polkadot.nix";
+    polkadot.inputs.nixpkgs.follows = "nixpkgs";
+  };
+  outputs =
+    { nixpkgs, polkadot, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ polkadot.overlays.default ];
+      };
+    in
+    {
+      packages.${system}.default = pkgs.polkadot;
+    };
+}
+```
+
+## Cachix
+
+Use Cachix to speed up builds by fetching pre-built binaries from a remote cache, reducing compilation times and improving overall efficiency.
+
+```sh
+cachix use polkadot
+```
+
 ## Development shell
 
 A shell derivation is included that provides a development environment with all the requirements necessary to build
 [polkadot-sdk](https://github.com/paritytech/polkadot-sdk).
 
-## Usage
+You can run it directly with:
 
-You need to enable flakes support (https://nixos.wiki/wiki/Flakes#Enable_flakes).
-
-### Run packages
-
-```
-nix run ".#polkadot"
+```sh
+nix develop "github:andresilva/polkadot.nix"
 ```
 
-### Development shell
+You can also integrate it into a flake and override it with more packages:
 
-```
-nix develop
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs";
+    polkadot.url = "github:andresilva/polkadot.nix";
+    polkadot.inputs.nixpkgs.follows = "nixpkgs";
+  };
+  outputs =
+    { nixpkgs, polkadot, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ polkadot.overlays.default ];
+      };
+    in
+    {
+      devShells.${system}.default = polkadot.devShells.${system}.default.overrideAttrs (attrs: {
+        nativeBuildInputs = with pkgs; attrs.nativeBuildInputs ++ [ zombienet ];
+      });
+    };
+}
 ```
