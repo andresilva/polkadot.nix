@@ -6,21 +6,22 @@
   rustPlatform,
 }:
 
-rustPlatform.buildRustPackage rec {
+rustPlatform.buildRustPackage {
   pname = "subalfred";
-  version = "0.9.3";
+  version = "unstable-2024-11-13";
 
   src = fetchFromGitHub {
     owner = "hack-ink";
     repo = "subalfred";
-    rev = "v${version}";
-    hash = "sha256-YQiSZcyKzn+43+vgNdg6fkKFpwlG1qso1lsoTq2X58w=";
+    # NOTE: current released version doesn't build with latest rust
+    rev = "64c93c47834eb786356fb4b0784e8486a27ab050";
+    hash = "sha256-N2mSkIN+2xMX/pbXNsn48fu58vE1fQUSQFsZ6mAANvo=";
   };
 
   cargoLock = {
     lockFile = ./Cargo.lock;
     outputHashes = {
-      "subcryptor-0.10.2" = "sha256-lX+EXUsEha1wT9OeQezxnB6DdTWBNViLZYSddONCktg=";
+      "subcryptor-0.11.1" = "sha256-PPJctFpAyv3gcL24iKgOTgqSKnweBx9B66Fe1KgRTVM=";
     };
   };
 
