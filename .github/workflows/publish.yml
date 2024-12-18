@@ -22,7 +22,7 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
           name: polkadot
       - name: Nix flake check
-        run: nix flake check
+        run: nix flake check --max-jobs 1
       - name: Nix flake develop
         run: nix develop
       - name: Publish to FlakeHub
