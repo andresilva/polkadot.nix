@@ -12,7 +12,7 @@ jobs:
       - name: Install nix
         uses: cachix/install-nix-action@v30
       - name: Update flake packages
-        uses: selfuryon/nix-update-action@v1.1.0
+        uses: andresilva/nix-update-action@main
         with:
           token: ${{ secrets.GH_TOKEN }}
           blacklist: "polkadot,subkey,zombienet"
