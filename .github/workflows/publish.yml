@@ -22,11 +22,7 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
           name: polkadot
       - name: Nix flake check
-        run: |
-          CORES=$(nproc)
-          CORES=$((CORES - 1))
-          echo "Using $CORES cores."
-          nix flake check -L --max-jobs 1 --option cores $CORES
+        run: nix flake check -L --max-jobs 1 --option cores 1
       - name: Nix flake develop
         run: nix develop
       - name: Publish to FlakeHub
