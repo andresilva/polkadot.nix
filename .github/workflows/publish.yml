@@ -26,7 +26,7 @@ jobs:
           CORES=$(nproc)
           CORES=$((CORES - 1))
           echo "Using $CORES cores."
-          nix flake check --max-jobs 1 --option cores $CORES
+          nix flake check -L --max-jobs 1 --option cores $CORES
       - name: Nix flake develop
         run: nix develop
       - name: Publish to FlakeHub
