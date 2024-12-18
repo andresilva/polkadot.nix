@@ -18,12 +18,12 @@ let
 in
 rustPlatform.buildRustPackage rec {
   pname = "polkadot";
-  version = "stable2412";
+  version = "2412";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "polkadot-sdk";
-    rev = "polkadot-${version}";
+    rev = "polkadot-stable${version}";
     hash = "sha256-0oqSABuCcyNhvCJyZuesnPvsUgHdNXdc36HeNMmToYM=";
 
     # the build process of polkadot requires a .git folder in order to determine

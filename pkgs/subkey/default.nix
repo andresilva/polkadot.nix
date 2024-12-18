@@ -10,12 +10,12 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "subkey";
-  version = "stable2412";
+  version = "2412";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "polkadot-sdk";
-    rev = "polkadot-${version}";
+    rev = "polkadot-stable${version}";
     hash = "sha256-Qg5WXRfaRSDi2707zpZgeJEH/qviEKlBDmm4FR9LN5k=";
   };
 
