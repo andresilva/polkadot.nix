@@ -10,6 +10,8 @@ jobs:
       id-token: write
       contents: read
     steps:
+      - name: Delete unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install nix
