@@ -8,7 +8,7 @@
 
 rustPlatform.buildRustPackage {
   pname = "subalfred";
-  version = "unstable-2024-11-13";
+  version = "0.9.3-unstable-2024-11-13";
 
   src = fetchFromGitHub {
     owner = "hack-ink";
