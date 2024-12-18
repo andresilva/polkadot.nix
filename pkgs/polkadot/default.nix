@@ -64,6 +64,10 @@ rustPlatform.buildRustPackage rec {
   cargoBuildFlags = [
     "-p"
     "polkadot"
+    "-p"
+    "polkadot-omni-node"
+    "-p"
+    "polkadot-parachain-bin"
   ];
 
   # NOTE: tests currently fail to compile due to an issue with cargo-auditable
