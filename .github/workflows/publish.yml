@@ -11,13 +11,16 @@ jobs:
       contents: read
     steps:
       - name: Free disk space
-        run: curl -fsSL https://raw.githubusercontent.com/kou/arrow/e49d8ae15583ceff03237571569099a6ad62be32/ci/scripts/util_free_space.sh | bash
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          tool-cache: true
+          swap-storage: false
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install nix
         uses: cachix/install-nix-action@v30
       - name: Setup cachix
-        uses: cachix/cachix-action@v14
+        uses: cachix/cachix-action@v15
         with:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
           name: polkadot
@@ -26,7 +29,7 @@ jobs:
       - name: Nix flake develop
         run: nix develop
       - name: Publish to FlakeHub
-        uses: DeterminateSystems/flakehub-push@main
+        uses: DeterminateSystems/flakehub-push@v5
         with:
           name: "andresilva/polkadot.nix"
           rolling: true
