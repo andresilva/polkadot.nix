@@ -7,6 +7,7 @@
   polkadot-omni-node = pkgs.callPackage ./polkadot/polkadot-omni-node.nix { };
   polkadot-parachain = pkgs.callPackage ./polkadot/polkadot-parachain.nix { };
   chain-spec-builder = pkgs.callPackage ./polkadot/chain-spec-builder.nix { };
+  frame-omni-bencher = pkgs.callPackage ./polkadot/frame-omni-bencher.nix { };
   subkey = pkgs.callPackage ./polkadot/subkey.nix { };
 
   srtool-cli = pkgs.callPackage ./srtool-cli { };
