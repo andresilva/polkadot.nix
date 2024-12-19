@@ -15,5 +15,5 @@ jobs:
         uses: andresilva/nix-update-action@main
         with:
           token: ${{ secrets.GH_TOKEN }}
-          blacklist: "polkadot,subkey,zombienet"
+          blacklist: "polkadot,polkadot-omni-node,polkadot-parachain,chain-spec-builder,frame-omni-bencher,subkey,zombienet"
           pr-title: "bot: update packages"
