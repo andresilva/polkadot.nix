@@ -7,10 +7,15 @@
 ## Packages
 
 - [graypaper](https://github.com/gavofyork/graypaper)
-- [polkadot](https://github.com/paritytech/polkadot-sdk/tree/master/polkadot)
+- [polkadot-sdk](https://github.com/paritytech/polkadot-sdk)
+  - [polkadot](https://github.com/paritytech/polkadot-sdk/tree/master/polkadot)
+  - [polkadot-omni-node](https://github.com/paritytech/polkadot-sdk/tree/master/cumulus/polkadot-omni-node)
+  - [polkadot-parachain](https://github.com/paritytech/polkadot-sdk/tree/master/cumulus/polkadot-parachain)
+  - [chain-spec-builder](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/bin/utils/chain-spec-builder)
+  - [frame-omni-bencher](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/utils/frame/omni-bencher)
+  - [subkey](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/bin/utils/subkey)
 - [srtool-cli](https://github.com/chevdor/srtool-cli)
 - [subalfred](https://github.com/hack-ink/subalfred)
-- [subkey](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/bin/utils/subkey)
 - [subrpc](https://github.com/chevdor/subrpc)
 - [subwasm](https://github.com/chevdor/subwasm)
 - [subxt-cli](https://github.com/paritytech/subxt/tree/master/cli)
