@@ -1,4 +1,9 @@
 {
+  pname,
+  target,
+  description,
+  license,
+
   fetchFromGitHub,
   lib,
   openssl,
@@ -17,7 +22,8 @@ let
   rocksdb = rocksdb_8_3;
 in
 rustPlatform.buildRustPackage rec {
-  pname = "polkadot";
+  inherit pname;
+
   version = "2412";
 
   src = fetchFromGitHub {
@@ -60,15 +66,7 @@ rustPlatform.buildRustPackage rec {
   };
 
   buildType = "production";
-
-  cargoBuildFlags = [
-    "-p"
-    "polkadot"
-    "-p"
-    "polkadot-omni-node"
-    "-p"
-    "polkadot-parachain-bin"
-  ];
+  buildAndTestSubdir = target;
 
   # NOTE: tests currently fail to compile due to an issue with cargo-auditable
   # and resolution of features flags, potentially related to this:
@@ -100,9 +98,9 @@ rustPlatform.buildRustPackage rec {
   ROCKSDB_LIB_DIR = "${rocksdb}/lib";
 
   meta = with lib; {
-    description = "Polkadot Node Implementation";
-    homepage = "https://polkadot.network";
-    license = licenses.gpl3Only;
+    inherit description license;
+
+    homepage = "https://github.com/paritytech/polkadot-sdk";
     maintainers = with maintainers; [ andresilva ];
     # See Iso::from_arch in src/isa/mod.rs in cranelift-codegen-meta.
     platforms = intersectLists platforms.unix (

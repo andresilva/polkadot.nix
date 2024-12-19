@@ -2,9 +2,8 @@
 
 {
   graypaper = pkgs.callPackage ./graypaper { };
-  polkadot = pkgs.callPackage ./polkadot {
-    inherit (pkgs.darwin.apple_sdk.frameworks) Security SystemConfiguration;
-  };
+
+  polkadot = pkgs.callPackage ./polkadot/polkadot.nix { };
   srtool-cli = pkgs.callPackage ./srtool-cli { };
   subalfred = pkgs.callPackage ./subalfred { };
   subkey = pkgs.callPackage ./subkey { };
