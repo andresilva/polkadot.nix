@@ -4,6 +4,7 @@
   graypaper = pkgs.callPackage ./graypaper { };
 
   polkadot = pkgs.callPackage ./polkadot/polkadot.nix { };
+  polkadot-omni-node = pkgs.callPackage ./polkadot/polkadot-omni-node.nix { };
   subkey = pkgs.callPackage ./polkadot/subkey.nix { };
 
   srtool-cli = pkgs.callPackage ./srtool-cli { };
