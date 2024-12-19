@@ -10,8 +10,8 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: Delete unnecessary tools folder
-        run: rm -rf /opt/hostedtoolcache
+      - name: Free disk space
+        run: curl -fsSL https://raw.githubusercontent.com/kou/arrow/e49d8ae15583ceff03237571569099a6ad62be32/ci/scripts/util_free_space.sh | bash
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install nix
