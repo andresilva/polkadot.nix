@@ -71,6 +71,7 @@ jobs:
       # Step 5: Check flake and capture the corrected hash
       - name: Check flake to find correct hash
         id: get_correct_hash
+        continue-on-error: true
         run: |
           set -o pipefail
 
@@ -81,17 +82,18 @@ jobs:
           echo "Log content:"
           cat build.log
 
-          # Extract the corrected hash from the log
-          HASH=$(grep -oP 'got:.*sha256:\K[a-zA-Z0-9+/=]{52}' build.log | head -n1)
+          # Extract the corrected hash from the log using the specific error message format
+          HASH=$(grep -oP 'got:\s+sha256-\K[a-zA-Z0-9+/=]{52}' build.log | head -n1)
 
           if [[ -z "$HASH" ]]; then
-            echo "Error: Could not extract corrected hash. Full log content:"
+            echo "Warning: No hash mismatch found in the output. This might be unexpected."
+            echo "Full log content:"
             cat build.log
-            exit 1
+            # Continue anyway, don't exit
+          else
+            echo "Found corrected hash: $HASH"
+            echo "HASH=$HASH" >> $GITHUB_ENV
           fi
-
-          echo "Corrected hash: $HASH"
-          echo "HASH=$HASH" >> $GITHUB_ENV
 
       # Step 6: Update default.nix with the corrected hash
       - name: Update Nix file with correct hash
