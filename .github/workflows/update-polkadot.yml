@@ -116,8 +116,9 @@ jobs:
 
       # Step 7: Commit and push changes
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: update Polkadot to latest stable release ${{ env.VERSION }}"
-          branch: main
-          file_pattern: pkgs/polkadot-sdk/generic.nix
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          git add pkgs/polkadot-sdk/generic.nix
+          git commit -m "chore: update Polkadot to latest stable release ${{ env.VERSION }}"
+          git push
