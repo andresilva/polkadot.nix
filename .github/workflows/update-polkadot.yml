@@ -33,15 +33,13 @@ jobs:
 
           if [[ -z "$TAG" ]]; then
             echo "No stable release found. Exiting."
-            echo "skip=true" >> $GITHUB_ENV
-            exit 0
+            exit 1
           fi
 
           VERSION=${TAG#"polkadot-stable"}
           echo "Latest version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "TAG=$TAG" >> $GITHUB_ENV
-          echo "skip=false" >> $GITHUB_ENV
 
       # Step 4: Update version in default.nix with placeholder hash
       - name: Update version in generic.nix
@@ -64,12 +62,14 @@ jobs:
           # Compare versions
           if [ "$CURRENT_VERSION" = "$VERSION" ]; then
             echo "Version $VERSION is already current. No update needed."
-            exit 78
+            echo "skip=true" >> $GITHUB_ENV
+            exit 0
           fi
 
           # Update version, set placeholder hash
           sed -i "s|version = \".*\";|version = \"$VERSION\";|" $FILE
           sed -i "s|hash = \"sha256-[a-zA-Z0-9+/=]*\";|hash = \"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\";|" $FILE
+          echo "skip=false" >> $GITHUB_ENV
 
       # Step 5: Check flake and capture the corrected hash
       - name: Check flake to find correct hash
