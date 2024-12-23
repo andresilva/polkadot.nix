@@ -23,7 +23,7 @@ jobs:
       - name: Fetch latest stable release
         id: fetch_version
         run: |
-          API_URL="https://api.github.com/repos/paritytech/polkadot-sdk/tags"
+          API_URL="https://api.github.com/repos/paritytech/polkadot-sdk/tags?per_page=100&page=2"
 
           # Fetch tags and find the latest stable release matching polkadot-stableYYMM(-x)?
           TAG=$(curl -s $API_URL | jq -r '
@@ -36,16 +36,33 @@ jobs:
             exit 1
           fi
 
-          VERSION=${TAG#"polkadot-"}
+          VERSION=${TAG#"polkadot-stable"}
           echo "Latest version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "TAG=$TAG" >> $GITHUB_ENV
 
       # Step 4: Update version in default.nix with placeholder hash
-      - name: Update version in default.nix
+      - name: Update version in generic.nix
         run: |
-          FILE="default.nix"
+          FILE="pkgs/polkadot-sdk/generic.nix"
           VERSION="${{ env.VERSION }}"
+
+          # First verify the file exists
+          if [ ! -f "$FILE" ]; then
+            echo "Error: $FILE does not exist"
+            exit 1
+          fi
+
+          # Extract current version from the file
+          CURRENT_VERSION=$(grep -oP 'version = "\K[^"]+' "$FILE")
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $VERSION"
+
+          # Compare versions
+          if [ "$CURRENT_VERSION" = "$VERSION" ]; then
+            echo "Version $VERSION is already current. No update needed."
+            exit 0
+          fi
 
           # Update version, set placeholder hash
           sed -i "s|version = \".*\";|version = \"$VERSION\";|" $FILE
@@ -74,7 +91,7 @@ jobs:
       # Step 6: Update default.nix with the corrected hash
       - name: Update Nix file with correct hash
         run: |
-          FILE="default.nix"
+          FILE="pkgs/polkadot-sdk/generic.nix"
           HASH="${{ env.HASH }}"
 
           # Replace placeholder hash with the correct one

@@ -1,21 +1,20 @@
-{
-  pname,
-  target,
-  description,
-  license,
-
-  fetchFromGitHub,
-  lib,
-  openssl,
-  pkg-config,
-  protobuf,
-  rocksdb_8_3,
-  rust-jemalloc-sys-unprefixed,
-  rustPlatform,
-  rustc,
-  stdenv,
-  Security,
-  SystemConfiguration,
+{ pname
+, target
+, description
+, license
+, fetchFromGitHub
+, lib
+, openssl
+, pkg-config
+, protobuf
+, rocksdb_8_3
+, rust-jemalloc-sys-unprefixed
+, rustPlatform
+, rustc
+, stdenv
+, Security
+, SystemConfiguration
+,
 }:
 
 let
@@ -24,7 +23,7 @@ in
 rustPlatform.buildRustPackage rec {
   inherit pname;
 
-  version = "2412";
+  version = "2409";
 
   src = fetchFromGitHub {
     owner = "paritytech";
