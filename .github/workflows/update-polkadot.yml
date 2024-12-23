@@ -120,4 +120,4 @@ jobs:
         with:
           commit_message: "chore: update Polkadot to latest stable release ${{ env.VERSION }}"
           branch: main
-          file_pattern: default.nix
+          file_pattern: pkgs/polkadot-sdk/generic.nix
