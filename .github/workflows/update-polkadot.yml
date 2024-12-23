@@ -66,7 +66,7 @@ jobs:
 
           # Update version, set placeholder hash
           sed -i "s|version = \".*\";|version = \"$VERSION\";|" $FILE
-          sed -i "s|hash = \"sha256-[a-zA-Z0-9+/=]*\";|hash = \"sha256-PLACEHOLDER\";|" $FILE
+          sed -i "s|hash = \"sha256-[a-zA-Z0-9+/=]*\";|hash = \"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\";|" $FILE
 
       # Step 5: Check flake and capture the corrected hash
       - name: Check flake to find correct hash
