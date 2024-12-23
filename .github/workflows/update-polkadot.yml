@@ -61,7 +61,7 @@ jobs:
           # Compare versions
           if [ "$CURRENT_VERSION" = "$VERSION" ]; then
             echo "Version $VERSION is already current. No update needed."
-            exit 0
+            exit 78
           fi
 
           # Update version, set placeholder hash
