@@ -43,7 +43,6 @@ jobs:
 
       # Step 4: Update version in default.nix with placeholder hash
       - name: Update version in generic.nix
-        if: env.skip == 'false'
         run: |
           FILE="pkgs/polkadot-sdk/generic.nix"
           VERSION="${{ env.VERSION }}"
