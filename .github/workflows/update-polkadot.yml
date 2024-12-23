@@ -83,16 +83,25 @@ jobs:
           cat build.log
 
           # Extract the corrected hash from the log using the specific error message format
-          HASH=$(grep -oP 'got:\s+sha256-\K[a-zA-Z0-9+/=]{52}' build.log | head -n1)
+          HASH=$(grep -oP 'got:\s+sha256-\K[a-zA-Z0-9+/=]+' build.log | head -n1)
 
           if [[ -z "$HASH" ]]; then
-            echo "Warning: No hash mismatch found in the output. This might be unexpected."
-            echo "Full log content:"
-            cat build.log
-            # Continue anyway, don't exit
-          else
-            echo "Found corrected hash: $HASH"
-            echo "HASH=$HASH" >> $GITHUB_ENV
+            # Try alternative format
+            HASH=$(grep -oP 'got:\s*sha256-\K[a-zA-Z0-9+/=]+' build.log | head -n1)
+          fi
+
+          if [[ -z "$HASH" ]]; then
+            echo "Error: Could not extract hash from log"
+            exit 1
+          fi
+
+          echo "Found corrected hash: $HASH"
+          echo "HASH=$HASH" >> $GITHUB_ENV
+
+          # Verify hash was set
+          if [[ -z "${HASH}" ]]; then
+            echo "Error: Hash extraction failed"
+            exit 1
           fi
 
       # Step 6: Update default.nix with the corrected hash
@@ -102,7 +111,7 @@ jobs:
           HASH="${{ env.HASH }}"
 
           # Replace placeholder hash with the correct one
-          sed -i "s|hash = \"sha256-PLACEHOLDER\";|hash = \"sha256-$HASH\";|" $FILE
+          sed -i "s|hash = \"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\";|hash = \"sha256-$HASH\";|" $FILE
           echo "Updated hash in $FILE"
 
       # Step 7: Commit and push changes
