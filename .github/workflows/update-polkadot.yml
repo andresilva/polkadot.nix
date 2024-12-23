@@ -33,16 +33,19 @@ jobs:
 
           if [[ -z "$TAG" ]]; then
             echo "No stable release found. Exiting."
-            exit 1
+            echo "skip=true" >> $GITHUB_ENV
+            exit 0
           fi
 
           VERSION=${TAG#"polkadot-stable"}
           echo "Latest version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "skip=false" >> $GITHUB_ENV
 
       # Step 4: Update version in default.nix with placeholder hash
       - name: Update version in generic.nix
+        if: env.skip == 'false'
         run: |
           FILE="pkgs/polkadot-sdk/generic.nix"
           VERSION="${{ env.VERSION }}"
@@ -70,6 +73,7 @@ jobs:
 
       # Step 5: Check flake and capture the corrected hash
       - name: Check flake to find correct hash
+        if: env.skip == 'false'
         id: get_correct_hash
         continue-on-error: true
         run: |
@@ -106,6 +110,7 @@ jobs:
 
       # Step 6: Update default.nix with the corrected hash
       - name: Update Nix file with correct hash
+        if: env.skip == 'false'
         run: |
           FILE="pkgs/polkadot-sdk/generic.nix"
           HASH="${{ env.HASH }}"
@@ -116,9 +121,15 @@ jobs:
 
       # Step 7: Commit and push changes
       - name: Commit and push changes
+        if: env.skip == 'false'
         run: |
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'actions@github.com'
           git add pkgs/polkadot-sdk/generic.nix
           git commit -m "chore: update Polkadot to latest stable release ${{ env.VERSION }}"
           git push
+
+      - name: Skip Message
+        if: env.skip == 'true'
+        run: |
+          echo "No update needed. Workflow exiting gracefully."
