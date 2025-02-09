@@ -15,7 +15,8 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-wUQq5yTs0aV8vVH/Vwu/ql2I9BL7vsxEf2TvT5RVIJ8=";
   };
 
-  cargoHash = "sha256-LeYxCbMio7U6r3uYaLYbLtmymCRyowIhZcka3dAF4vQ=";
+  useFetchCargoVendor = true;
+  cargoHash = "sha256-x3My/soXwyo9r66si8zO4rKQD658nljBZITiivEqrHc=";
 
   meta = with lib; {
     description = "Analyze, Fix and Format features in your Rust workspace";
