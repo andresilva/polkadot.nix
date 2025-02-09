@@ -35,7 +35,8 @@ rustPlatform.buildRustPackage rec {
     rm .git_commit
   '';
 
-  cargoHash = "sha256-XWcNONLjoEb0+6gEut8teIbQlZQt6x+++3AXUGcMrxQ=";
+  useFetchCargoVendor = true;
+  cargoHash = "sha256-+onXj9uQP/RvjFygV8WEDj+A1rR5tHZ8kPG/uAdOH3M=";
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [ openssl ];
