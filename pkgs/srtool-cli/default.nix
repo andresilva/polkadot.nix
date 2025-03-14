@@ -6,16 +6,17 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "srtool-cli";
-  version = "0.12.0";
+  version = "0.13.2";
 
   src = fetchFromGitHub {
     owner = "chevdor";
     repo = "srtool-cli";
     rev = "v${version}";
-    hash = "sha256-CAmw8Eri1KUznU6lTb11j5tp5cAWBk6NB5j0zVZWOqU=";
+    hash = "sha256-uLQ+y2vP/Odv/ICqypHUvqnuHPiAfmJtWpG5kLgVWi8=";
   };
 
-  cargoHash = "sha256-zLWhPQI8dXmpIgC/ZwaAU436h+JLSi51g55q7LG9Q/c=";
+  useFetchCargoVendor = true;
+  cargoHash = "sha256-O70wFsx7CWDtvRIRYvZybXpFP71L9C6TxUprnEQtASA=";
 
   doCheck = false;
 

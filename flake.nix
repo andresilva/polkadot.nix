@@ -49,6 +49,7 @@
       devShells = eachSystem (
         system: pkgs: {
           default = import ./shell.nix { inherit pkgs; };
+          local = with pkgs; mkShell { packages = [ nix-update ]; };
         }
       );
       packages = eachSystem (system: pkgs: import ./pkgs { inherit pkgs; });
