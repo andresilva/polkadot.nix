@@ -6,17 +6,17 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "zepter";
-  version = "1.5.1";
+  version = "1.78.0";
 
   src = fetchFromGitHub {
     owner = "ggwpez";
     repo = "zepter";
     rev = "v${version}";
-    hash = "sha256-wUQq5yTs0aV8vVH/Vwu/ql2I9BL7vsxEf2TvT5RVIJ8=";
+    hash = "sha256-WNmtyiLk4FZu69EdFiiDvYdvnBTok7fvM3BJ45VqxCc=";
   };
 
   useFetchCargoVendor = true;
-  cargoHash = "sha256-x3My/soXwyo9r66si8zO4rKQD658nljBZITiivEqrHc=";
+  cargoHash = "sha256-DW2msGXu/2CcM02GY+6tfQEkOjmwoTg8TG/yrMD7drM=";
 
   meta = with lib; {
     description = "Analyze, Fix and Format features in your Rust workspace";
