@@ -33,7 +33,7 @@ jobs:
       - name: Nix flake develop
         run: nix develop
       - name: Publish to FlakeHub
-        uses: DeterminateSystems/flakehub-push@v5
+        uses: DeterminateSystems/flakehub-push@main
         with:
           name: "andresilva/polkadot.nix"
           rolling: true
