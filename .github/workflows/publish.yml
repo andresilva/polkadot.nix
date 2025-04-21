@@ -38,3 +38,4 @@ jobs:
           name: "andresilva/polkadot.nix"
           rolling: true
           visibility: public
+        continue-on-error: true
