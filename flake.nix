@@ -6,10 +6,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     systems.url = "github:nix-systems/default";
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     zombienet = {
       url = "github:paritytech/zombienet";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,7 +17,6 @@
       self,
       nixpkgs,
       systems,
-      fenix,
       zombienet,
       ...
     }:
@@ -30,10 +25,7 @@
         system:
         import nixpkgs {
           inherit system;
-          overlays = [
-            fenix.overlays.default
-            zombienet.overlays.default
-          ];
+          overlays = [ zombienet.overlays.default ];
         };
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f system (mkPkgs system));
     in
@@ -57,13 +49,7 @@
     // {
       overlays = {
         default =
-          final: prev:
-          import ./overlay.nix final (
-            prev.appendOverlays [
-              fenix.overlays.default
-              zombienet.overlays.default
-            ]
-          );
+          final: prev: import ./overlay.nix final (prev.appendOverlays [ zombienet.overlays.default ]);
       };
     };
 }

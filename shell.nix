@@ -1,35 +1,40 @@
-{ pkgs }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 let
-  rust-toolchain =
-    with pkgs.fenix;
-    combine [
-      (stable.withComponents [
-        "cargo"
-        "clippy"
-        "rust-analyzer"
-        "rust-src"
-        "rustc"
-      ])
-      (latest.withComponents [ "rustfmt" ])
-      targets.wasm32-unknown-unknown.stable.rust-std
-    ];
   mold = pkgs.wrapBintoolsWith { bintools = pkgs.mold; };
+  rustfmt-nightly = pkgs.rustfmt.override { asNightly = true; };
 in
 with pkgs;
 mkShell.override { stdenv = clangStdenv; } {
-  packages = [
-    openssl
-    pkg-config
-    rust-toolchain
-  ];
+  packages =
+    [
+      cargo
+      clippy
+      openssl
+      pkg-config
+      rust-analyzer
+      rustc
+      rustc.llvmPackages.lld
+      rustfmt-nightly
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isLinux [
+      rust-jemalloc-sys-unprefixed
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [
+      Security
+      SystemConfiguration
+    ];
 
   # use mold as linker on linux x86_64
   CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER = "clang";
   CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS = "-C link-arg=-fuse-ld=${mold}/bin/ld.mold";
 
   LIBCLANG_PATH = lib.makeLibraryPath [ llvmPackages.libclang ];
+  RUST_SRC_PATH = "${rustPlatform.rustLibSrc}";
+
+  OPENSSL_NO_VENDOR = 1;
   PROTOC = "${lib.makeBinPath [ protobuf ]}/protoc";
   ROCKSDB_LIB_DIR = lib.makeLibraryPath [ rocksdb ];
-  RUST_SRC_PATH = "${rust-toolchain}/lib/rustlib/src/rust/library";
 }
