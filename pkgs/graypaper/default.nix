@@ -5,7 +5,7 @@
 }:
 
 let
-  version = "0.6.5";
+  version = "0.6.6";
 in
 runCommand "graypaper"
   {
@@ -15,7 +15,7 @@ runCommand "graypaper"
       owner = "gavofyork";
       repo = "graypaper";
       rev = "v${version}";
-      hash = "sha256-sX/v15PyB/so+fUdL47j4AknA4s6vQAY4hGKLn/Baro=";
+      hash = "sha256-jYdgx7ENG5pHlnEf7UbCsMrvmaiWX2mmTWsw0nwMRfI=";
     };
     nativeBuildInputs = [
       (texliveBasic.withPackages (
