@@ -15,8 +15,6 @@
   rustPlatform,
   rustc,
   stdenv,
-  Security,
-  SystemConfiguration,
 }:
 
 let
@@ -66,13 +64,9 @@ rustPlatform.buildRustPackage rec {
   ];
 
   # NOTE: jemalloc is used by default on Linux with unprefixed enabled
-  buildInputs =
-    [ openssl ]
-    ++ lib.optionals stdenv.hostPlatform.isLinux [ rust-jemalloc-sys-unprefixed ]
-    ++ lib.optionals stdenv.hostPlatform.isDarwin [
-      Security
-      SystemConfiguration
-    ];
+  buildInputs = [
+    openssl
+  ] ++ lib.optionals stdenv.hostPlatform.isLinux [ rust-jemalloc-sys-unprefixed ];
 
   checkInputs = [
     cacert

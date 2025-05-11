@@ -21,10 +21,6 @@ mkShell.override { stdenv = clangStdenv; } {
     ]
     ++ lib.optionals stdenv.hostPlatform.isLinux [
       rust-jemalloc-sys-unprefixed
-    ]
-    ++ lib.optionals stdenv.hostPlatform.isDarwin [
-      Security
-      SystemConfiguration
     ];
 
   # use mold as linker on linux x86_64
