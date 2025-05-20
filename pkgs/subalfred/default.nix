@@ -6,20 +6,19 @@
   rustPlatform,
 }:
 
-rustPlatform.buildRustPackage {
+rustPlatform.buildRustPackage rec {
   pname = "subalfred";
-  version = "0.9.3-unstable-2024-11-13";
+  version = "0.9.4";
 
   src = fetchFromGitHub {
     owner = "hack-ink";
     repo = "subalfred";
-    # NOTE: current released version doesn't build with latest rust
-    rev = "64c93c47834eb786356fb4b0784e8486a27ab050";
-    hash = "sha256-N2mSkIN+2xMX/pbXNsn48fu58vE1fQUSQFsZ6mAANvo=";
+    rev = "v${version}";
+    hash = "sha256-R+5j4KLizbX2daCbSQWVlWDe2UK1UUXGru1WPlGKzYo=";
   };
 
   useFetchCargoVendor = true;
-  cargoHash = "sha256-9JfdcneN40on1i0quGP33Cf/fWlBkHsgBdB1U3PpeT4=";
+  cargoHash = "sha256-/jKveC2iO1/r2euBG3dSTr0vhU8g781wHRxpM9TTZWo=";
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [ openssl ];
