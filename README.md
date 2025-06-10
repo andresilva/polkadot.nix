@@ -14,6 +14,7 @@
   - [chain-spec-builder](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/bin/utils/chain-spec-builder)
   - [frame-omni-bencher](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/utils/frame/omni-bencher)
   - [subkey](https://github.com/paritytech/polkadot-sdk/tree/master/substrate/bin/utils/subkey)
+- [psvm](https://github.com/paritytech/psvm)
 - [srtool-cli](https://github.com/chevdor/srtool-cli)
 - [subalfred](https://github.com/hack-ink/subalfred)
 - [subrpc](https://github.com/chevdor/subrpc)

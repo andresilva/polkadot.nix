@@ -10,6 +10,7 @@
   frame-omni-bencher = pkgs.callPackage ./polkadot-sdk/frame-omni-bencher.nix { };
   subkey = pkgs.callPackage ./polkadot-sdk/subkey.nix { };
 
+  psvm = pkgs.callPackage ./psvm { };
   srtool-cli = pkgs.callPackage ./srtool-cli { };
   subalfred = pkgs.callPackage ./subalfred { };
   subrpc = pkgs.callPackage ./subrpc { };
