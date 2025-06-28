@@ -20,6 +20,7 @@ runCommand "graypaper"
     nativeBuildInputs = [
       (texliveBasic.withPackages (
         ps: with ps; [
+          accents
           biber
           biblatex
           booktabs
