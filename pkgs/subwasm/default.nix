@@ -35,7 +35,6 @@ rustPlatform.buildRustPackage rec {
     rm .git_commit
   '';
 
-  useFetchCargoVendor = true;
   cargoHash = "sha256-+onXj9uQP/RvjFygV8WEDj+A1rR5tHZ8kPG/uAdOH3M=";
 
   nativeBuildInputs = [ pkg-config ];

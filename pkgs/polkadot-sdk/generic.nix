@@ -50,7 +50,6 @@ rustPlatform.buildRustPackage rec {
     rm .git_commit
   '';
 
-  useFetchCargoVendor = true;
   cargoHash = "sha256-4LT4TiXRZIgyhy1eBr017Wh8Nyo26udCMffwIXRaCrM=";
 
   buildType = "production";
