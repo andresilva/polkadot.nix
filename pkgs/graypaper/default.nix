@@ -6,10 +6,11 @@
 
 let
   version = "0.7.1";
+  pname = "graypaper";
 in
-runCommand "graypaper"
+runCommand "${pname}-${version}"
   {
-    inherit version;
+    inherit pname version;
 
     src = fetchFromGitHub {
       owner = "gavofyork";
