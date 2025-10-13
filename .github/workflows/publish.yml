@@ -33,30 +33,10 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: Increase swap size
-        uses: pierotofy/set-swap-space@fc79b3f67fa8a838184ce84a674ca12238d2c761
-        with:
-          swap-size-gb: 8
-      - name: Enable zswap
-        run: |
-          echo "zswap (before)"
-          grep -r . /sys/module/zswap/parameters/
-          echo 0 | sudo tee /sys/module/zswap/parameters/enabled >/dev/null
-          echo 40 | sudo tee /sys/module/zswap/parameters/max_pool_percent >/dev/null
-          echo zstd | sudo tee /sys/module/zswap/parameters/compressor >/dev/null
-          echo zsmalloc | sudo tee /sys/module/zswap/parameters/zpool >/dev/null
-          echo 1 | sudo tee /sys/module/zswap/parameters/shrinker_enabled >/dev/null
-          echo 1 | sudo tee /sys/module/zswap/parameters/enabled >/dev/null
-          sudo sysctl vm.swappiness=80
-          echo "zswap (after)"
-          grep -r . /sys/module/zswap/parameters/
-      - name: Free disk space
-        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
-        with:
-          tool-cache: true
-          swap-storage: false
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Setup runner
+        uses: ./.github/actions/setup-runner
       - name: Install nix
         uses: cachix/install-nix-action@v30
       - name: Setup cachix
@@ -70,8 +50,32 @@ jobs:
           CORES=$((CORES - 1))
           echo "Using $CORES cores."
           nix build -L --cores "$CORES" ".#${{ matrix.pkg }}"
-      # - name: Nix flake develop
-      #   run: nix develop
+      - name: Publish to FlakeHub
+        uses: DeterminateSystems/flakehub-push@main
+        with:
+          name: "andresilva/polkadot.nix"
+          rolling: true
+          visibility: public
+        continue-on-error: true
+  build-shell:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup runner
+        uses: ./.github/actions/setup-runner
+      - name: Install nix
+        uses: cachix/install-nix-action@v30
+      - name: Setup cachix
+        uses: cachix/cachix-action@v15
+        with:
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          name: polkadot
+      - name: Nix flake develop
+        run: nix develop
       - name: Publish to FlakeHub
         uses: DeterminateSystems/flakehub-push@main
         with:
