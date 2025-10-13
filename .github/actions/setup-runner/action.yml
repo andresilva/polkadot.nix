@@ -1,4 +1,7 @@
 name: Setup runner
+inputs:
+  cachix_token:
+    description: Cachix token
 runs:
   using: composite
   steps:
@@ -25,3 +28,10 @@ runs:
       with:
         tool-cache: true
         swap-storage: false
+    - name: Install nix
+      uses: cachix/install-nix-action@v30
+    - name: Setup cachix
+      uses: cachix/cachix-action@v15
+      with:
+        authToken: "${{ inputs.cachix_token }}"
+        name: polkadot
