@@ -7,6 +7,28 @@ jobs:
   build-changed-flake-packages:
     runs-on: ubuntu-latest
     steps:
+      - name: Increase swap size
+        uses: pierotofy/set-swap-space@fc79b3f67fa8a838184ce84a674ca12238d2c761
+        with:
+          swap-size-gb: 8
+      - name: Enable zswap
+        run: |
+          echo "zswap (before)"
+          grep -r . /sys/module/zswap/parameters/
+          echo 0 | sudo tee /sys/module/zswap/parameters/enabled >/dev/null
+          echo 40 | sudo tee /sys/module/zswap/parameters/max_pool_percent >/dev/null
+          echo zstd | sudo tee /sys/module/zswap/parameters/compressor >/dev/null
+          echo zsmalloc | sudo tee /sys/module/zswap/parameters/zpool >/dev/null
+          echo 1 | sudo tee /sys/module/zswap/parameters/shrinker_enabled >/dev/null
+          echo 1 | sudo tee /sys/module/zswap/parameters/enabled >/dev/null
+          sudo sysctl vm.swappiness=80
+          echo "zswap (after)"
+          grep -r . /sys/module/zswap/parameters/
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          tool-cache: true
+          swap-storage: false
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -26,7 +48,10 @@ jobs:
       - name: Build changed flake packages
         if: env.changed_packages != ''
         run: |
+          CORES=$(nproc)
+          CORES=$((CORES - 1))
+          echo "Using $CORES cores."
           for package in $changed_packages; do
             echo "Building package: x86_64-linux.$package"
-            nix build .#packages.x86_64-linux.$package -L || exit 1
+            nix build ".#packages.x86_64-linux.$package" -L --cores "$CORES" || exit 1
           done

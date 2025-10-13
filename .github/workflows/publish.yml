@@ -8,8 +8,27 @@ on:
     types:
       - completed
 jobs:
-  build:
+  discover:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix
+        uses: cachix/install-nix-action@v30
+      - name: Discover flake packages
+        id: discover
+        run: |
+          pkgs=$(nix flake show --json | jq -c '.packages."x86_64-linux" | keys')
+          echo "pkgs=$pkgs" >> "$GITHUB_OUTPUT"
+    outputs:
+      pkgs: ${{ steps.discover.outputs.pkgs }}
+  build:
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pkg: ${{ fromJson(needs.discover.outputs.pkgs) }}
     permissions:
       id-token: write
       contents: read
@@ -45,14 +64,14 @@ jobs:
         with:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
           name: polkadot
-      - name: Nix flake check
+      - name: Build ${{ matrix.pkg }}
         run: |
           CORES=$(nproc)
           CORES=$((CORES - 1))
           echo "Using $CORES cores."
-          nix flake check -L --max-jobs 1 --cores $CORES
-      - name: Nix flake develop
-        run: nix develop
+          nix build -L --cores "$CORES" ".#${{ matrix.pkg }}"
+      # - name: Nix flake develop
+      #   run: nix develop
       - name: Publish to FlakeHub
         uses: DeterminateSystems/flakehub-push@main
         with:
