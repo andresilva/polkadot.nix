@@ -2,6 +2,8 @@
   <img width="320" src="img/nix-polkadot.png" alt="nix-polkadot logo">
 </p>
 
+TESTESTESTESTETES
+
 **polkadot.nix** is a collection of Nix packages related to the [**Polkadot**](https://polkadot.network/) ecosystem.
 
 ## Packages
