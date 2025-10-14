@@ -23,45 +23,11 @@ runs:
         sudo sysctl vm.swappiness=80
         echo "zswap (after)"
         grep -r . /sys/module/zswap/parameters/
-    # Taken from: https://gist.github.com/antiphishfish/1e3fbc3f64ef6f1ab2f47457d2da5d9d
     - name: Free disk space
-      shell: bash
-      run: |
-        set -xe
-
-        echo "##### Before #####"
-        df -H
-
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /usr/share/swift
-        sudo rm -rf /usr/local/lib/android
-        sudo rm -rf /opt/ghc
-        sudo rm -rf /usr/local/.ghcup
-        sudo rm -rf "/usr/local/share/boost"
-        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-        sudo rm -rf /opt/hostedtoolcache/
-        sudo rm -rf /usr/local/graalvm/
-        sudo rm -rf /usr/local/share/powershell
-        sudo rm -rf /usr/local/share/chromium
-        sudo rm -rf /usr/local/lib/node_modules
-        sudo docker image prune --all --force
-
-        echo 'set man-db/auto-update false' | sudo debconf-communicate >/dev/null
-        sudo dpkg-reconfigure man-db
-
-        APT_PARAMS='sudo apt -y -qq -o=Dpkg::Use-Pty=0'
-        $APT_PARAMS remove -y '^dotnet-.*'
-        $APT_PARAMS remove -y '^llvm-.*'
-        $APT_PARAMS remove -y '^php.*'
-        $APT_PARAMS remove -y '^mongodb-.*'
-        $APT_PARAMS remove -y '^mysql-.*'
-        $APT_PARAMS remove -y azure-cli google-* google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri
-        $APT_PARAMS autoremove --purge -y
-        $APT_PARAMS autoclean
-        $APT_PARAMS clean
-
-        echo "##### After #####"
-        df -H
+      uses: wimpysworld/nothing-but-nix@10c936d9e46521bf923f75458e0cbd4fa309300d
+      with:
+        hatchet-protocol: 'cleave'
+        witness-carnage: true
     - name: Install nix
       uses: cachix/install-nix-action@v31
     - name: Setup cachix
