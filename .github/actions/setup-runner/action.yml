@@ -63,9 +63,9 @@ runs:
         echo "##### After #####"
         df -H
     - name: Install nix
-      uses: cachix/install-nix-action@v30
+      uses: cachix/install-nix-action@v31
     - name: Setup cachix
-      uses: cachix/cachix-action@v15
+      uses: cachix/cachix-action@v16
       with:
         authToken: "${{ inputs.cachix_token }}"
         name: polkadot
