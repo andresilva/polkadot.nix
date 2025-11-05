@@ -8,13 +8,13 @@
 
 rustPlatform.buildRustPackage {
   pname = "psvm";
-  version = "0-unstable-2024-09-06";
+  version = "0-unstable-2025-11-04";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "psvm";
-    rev = "febe87df7e01ffb842853e1777b6519b933d0565";
-    hash = "sha256-QKIr+2fqaysj+7EL/OBWhLCeD8HxgzpKaRAXfczEtM4=";
+    rev = "f0f7e5183b1765d3f0d67934b24c5ad1cd1bb173";
+    hash = "sha256-TfgRZaLzRWH4ZWVGvCDbB1TW+dSgEaRwEGpTNF7Jysg=";
   };
 
   cargoHash = "sha256-fG9h//7YuRigbvNmI5+dxDvk//sz1peN9ppHcj9lMGc=";
