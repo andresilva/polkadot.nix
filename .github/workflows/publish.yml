@@ -1,5 +1,6 @@
 name: "Build and publish to Cachix and FlakeHub ❄️"
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
