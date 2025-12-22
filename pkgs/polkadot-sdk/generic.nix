@@ -10,26 +10,23 @@
   openssl,
   pkg-config,
   protobuf,
-  rocksdb_8_3,
-  rust-jemalloc-sys-unprefixed,
+  rocksdb,
+  rust-jemalloc-sys,
   rustPlatform,
   rustc,
   stdenv,
 }:
 
-let
-  rocksdb = rocksdb_8_3;
-in
 rustPlatform.buildRustPackage rec {
   inherit pname;
 
-  version = "2509-3";
+  version = "2512";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "polkadot-sdk";
     rev = "polkadot-stable${version}";
-    hash = "sha256-RZVH29zYMl4cxirUniDvdKJhyu4et2l31UnlfRFy3V8=";
+    hash = "sha256-vUKr4COn1Y7lf/AeKJqXlBn+/TDDThhPSUhGY5/qh10=";
 
     # the build process of polkadot requires a .git folder in order to determine
     # the git commit hash that is being built and add it to the version string.
@@ -50,7 +47,7 @@ rustPlatform.buildRustPackage rec {
     rm .git_commit
   '';
 
-  cargoHash = "sha256-UUspJo87n/tDY8vAvbcllmz7/+0xNF70XUHY/471MD4=";
+  cargoHash = "sha256-bIEonV4+si6mX8ImtbVIGppUUgGvQml50x05XVYz6l0=";
 
   buildType = "production";
   buildAndTestSubdir = target;
@@ -62,15 +59,21 @@ rustPlatform.buildRustPackage rec {
     rustc.llvmPackages.lld
   ];
 
-  # NOTE: jemalloc is used by default on Linux with unprefixed enabled
+  # NOTE: jemalloc is used by default on Linux
   buildInputs = [
     openssl
   ]
-  ++ lib.optionals stdenv.hostPlatform.isLinux [ rust-jemalloc-sys-unprefixed ];
+  ++ lib.optionals stdenv.hostPlatform.isLinux [ rust-jemalloc-sys ];
 
   checkInputs = [
     cacert
   ];
+
+  # NOTE: check whether this is still needed in the next release
+  env = {
+    RUSTFLAGS = "-A useless_deprecated";
+    WASM_BUILD_RUSTFLAGS = "-A useless_deprecated";
+  };
 
   OPENSSL_NO_VENDOR = 1;
   PROTOC = "${protobuf}/bin/protoc";
