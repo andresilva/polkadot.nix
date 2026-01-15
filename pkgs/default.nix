@@ -16,6 +16,7 @@
   subrpc = pkgs.callPackage ./subrpc { };
   subwasm = pkgs.callPackage ./subwasm { };
   subxt-cli = pkgs.callPackage ./subxt-cli { };
+  try-runtime-cli = pkgs.callPackage ./try-runtime-cli { };
   zepter = pkgs.callPackage ./zepter { };
   zombienet = pkgs.zombienet.default;
 }

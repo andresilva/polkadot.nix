@@ -20,6 +20,7 @@
 - [subrpc](https://github.com/chevdor/subrpc)
 - [subwasm](https://github.com/chevdor/subwasm)
 - [subxt-cli](https://github.com/paritytech/subxt/tree/master/cli)
+- [try-runtime-cli](https://github.com/paritytech/try-runtime-cli)
 - [zepter](https://github.com/ggwpez/zepter)
 - [zombienet](https://github.com/paritytech/zombienet)
 
