@@ -11,13 +11,13 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "try-runtime-cli";
-  version = "0.9.0";
+  version = "0.9.1";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "try-runtime-cli";
     rev = "v${version}";
-    hash = "sha256-x+yI3neFMFh9EFD9WhZ5Kt+HAj5OJ5xu6qFZhrfdh3E=";
+    hash = "sha256-t2yVe7js0MOlUd0KLXbyVVrCmFOj+JMcYmufeEVgbRE=";
   };
 
   cargoPatches = [
@@ -26,7 +26,7 @@ rustPlatform.buildRustPackage rec {
     ./fix-cargo-toml.patch
   ];
 
-  cargoHash = "sha256-1YKaZykpiV95Q1coDpHjdKPfBLuCnXjUT4BVFjxVWx8=";
+  cargoHash = "sha256-8meI3VD6qDFghCfFWoho7p1xd2V9QMKkKCDBijp1ImM=";
 
   nativeBuildInputs = [
     rustPlatform.bindgenHook
