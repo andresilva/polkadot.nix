@@ -11,22 +11,22 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "try-runtime-cli";
-  version = "0.9.1";
+  version = "0.10.0";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "try-runtime-cli";
     rev = "v${version}";
-    hash = "sha256-t2yVe7js0MOlUd0KLXbyVVrCmFOj+JMcYmufeEVgbRE=";
+    hash = "sha256-aoY5hTVQWUvfgu7CM2jhRVNJArX/qjEykDL2OCmXjp8=";
   };
 
   cargoPatches = [
-    # deduplicates sc-crypto-hashing dependency and makes picosimd
+    # deduplicates sp-crypto-hashing dependency and makes picosimd
     # compile on nix (https://github.com/koute/picosimd/pull/3)
     ./fix-cargo-toml.patch
   ];
 
-  cargoHash = "sha256-8meI3VD6qDFghCfFWoho7p1xd2V9QMKkKCDBijp1ImM=";
+  cargoHash = "sha256-6+bHKut2PxbEarbEVXf4z0Lah1JCo+1qRwn/dIZsxrE=";
 
   nativeBuildInputs = [
     rustPlatform.bindgenHook
