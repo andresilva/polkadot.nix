@@ -20,13 +20,13 @@
 rustPlatform.buildRustPackage rec {
   inherit pname;
 
-  version = "2512";
+  version = "2512-1";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "polkadot-sdk";
     rev = "polkadot-stable${version}";
-    hash = "sha256-vUKr4COn1Y7lf/AeKJqXlBn+/TDDThhPSUhGY5/qh10=";
+    hash = "sha256-3NT+kGwswznGuy8rj1jhvm9Hlx8su/mhf2p+kMxaxlM=";
 
     # the build process of polkadot requires a .git folder in order to determine
     # the git commit hash that is being built and add it to the version string.
@@ -47,7 +47,12 @@ rustPlatform.buildRustPackage rec {
     rm .git_commit
   '';
 
-  cargoHash = "sha256-bIEonV4+si6mX8ImtbVIGppUUgGvQml50x05XVYz6l0=";
+  cargoPatches = [
+    # make picosimd compile on nix (https://github.com/koute/picosimd/pull/3)
+    ./fix-cargo-toml.patch
+  ];
+
+  cargoHash = "sha256-kFZL6h7TF3T2GrQlsdhM3QZN7F+cTqS6xyxmyI6twIE=";
 
   buildType = "production";
   buildAndTestSubdir = target;
@@ -68,12 +73,6 @@ rustPlatform.buildRustPackage rec {
   checkInputs = [
     cacert
   ];
-
-  # NOTE: check whether this is still needed in the next release
-  env = {
-    RUSTFLAGS = "-A useless_deprecated";
-    WASM_BUILD_RUSTFLAGS = "-A useless_deprecated";
-  };
 
   OPENSSL_NO_VENDOR = 1;
   PROTOC = "${protobuf}/bin/protoc";
