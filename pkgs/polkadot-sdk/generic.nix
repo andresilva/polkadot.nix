@@ -49,10 +49,10 @@ rustPlatform.buildRustPackage rec {
 
   cargoPatches = [
     # make picosimd compile on nix (https://github.com/koute/picosimd/pull/3)
-    ./fix-cargo-toml.patch
+    ./picosimd-0.9.3.patch
   ];
 
-  cargoHash = "sha256-kFZL6h7TF3T2GrQlsdhM3QZN7F+cTqS6xyxmyI6twIE=";
+  cargoHash = "sha256-qsWOrBavXrkSizeyj8b9fPKMKUcHPGTLYVM5iqbwo8c=";
 
   buildType = "production";
   buildAndTestSubdir = target;
