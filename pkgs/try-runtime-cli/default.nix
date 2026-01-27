@@ -26,7 +26,7 @@ rustPlatform.buildRustPackage rec {
     ./fix-cargo-toml.patch
   ];
 
-  cargoHash = "sha256-nv5X0bpTTrinIWljH1yD/Q8nVr9LaSP4s/eJNE5cECc=";
+  cargoHash = "sha256-MnOM9XXpIopn0IXprjZvInjhVKVlExkqQuCPBMPsVfo=";
 
   nativeBuildInputs = [
     rustPlatform.bindgenHook
