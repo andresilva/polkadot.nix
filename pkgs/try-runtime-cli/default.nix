@@ -6,7 +6,7 @@
   protobuf,
   rocksdb,
   rustc,
-  rust-jemalloc-sys,
+  rust-jemalloc-sys-unprefixed,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -34,7 +34,7 @@ rustPlatform.buildRustPackage rec {
     rustc.llvmPackages.lld
   ];
 
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ rust-jemalloc-sys ];
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ rust-jemalloc-sys-unprefixed ];
 
   doCheck = false;
 
