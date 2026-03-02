@@ -6,6 +6,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     systems.url = "github:nix-systems/default";
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     zombienet = {
       url = "github:paritytech/zombienet";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,6 +21,7 @@
       self,
       nixpkgs,
       systems,
+      fenix,
       zombienet,
       ...
     }:
@@ -40,7 +45,12 @@
       );
       devShells = eachSystem (
         system: pkgs: {
-          default = import ./shell.nix { inherit pkgs; };
+          default = import ./shell.nix { inherit pkgs; fenixPkgs = fenix.packages.${system}; };
+          nightly = import ./shell.nix {
+            inherit pkgs;
+            fenixPkgs = fenix.packages.${system};
+            channel = "latest";
+          };
           local = with pkgs; mkShell { packages = [ nix-update ]; };
         }
       );
