@@ -34,7 +34,7 @@ mkShell.override { stdenv = clangStdenv; } {
 
   # use mold as linker on linux x86_64
   CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER = "clang";
-  CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS = "-C link-arg=-fuse-ld=${mold}/bin/ld.mold";
+  CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS = "-Clink-arg=-fuse-ld=${mold}/bin/ld.mold -Clink-arg=-Wl,--no-rosegment";
 
   LIBCLANG_PATH = lib.makeLibraryPath [ llvmPackages.libclang ];
   RUST_SRC_PATH = "${rust-toolchain}/lib/rustlib/src/rust/library";
