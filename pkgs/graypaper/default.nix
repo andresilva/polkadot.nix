@@ -54,6 +54,10 @@ runCommand "${pname}-${version}"
     cp -r $src/* $TMP
     cd $TMP
 
+    # LaTeX 2025-11-01's \markboth now \xdef-expands title content
+    # directly, breaking \input{VERSION} inside \title.
+    sed -i 's/\\input{VERSION}/${version}/' preamble.tex
+
     xelatex -halt-on-error graypaper
     biber graypaper
     xelatex -halt-on-error graypaper
