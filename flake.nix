@@ -10,10 +10,6 @@
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zombienet = {
-      url = "github:paritytech/zombienet";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -22,7 +18,6 @@
       nixpkgs,
       systems,
       fenix,
-      zombienet,
       ...
     }:
     let
@@ -30,7 +25,6 @@
         system:
         import nixpkgs {
           inherit system;
-          overlays = [ zombienet.overlays.default ];
         };
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f system (mkPkgs system));
     in
@@ -45,7 +39,10 @@
       );
       devShells = eachSystem (
         system: pkgs: {
-          default = import ./shell.nix { inherit pkgs; fenixPkgs = fenix.packages.${system}; };
+          default = import ./shell.nix {
+            inherit pkgs;
+            fenixPkgs = fenix.packages.${system};
+          };
           nightly = import ./shell.nix {
             inherit pkgs;
             fenixPkgs = fenix.packages.${system};
@@ -58,8 +55,7 @@
     }
     // {
       overlays = {
-        default =
-          final: prev: import ./overlay.nix final (prev.appendOverlays [ zombienet.overlays.default ]);
+        default = final: prev: import ./overlay.nix final prev;
       };
     };
 }

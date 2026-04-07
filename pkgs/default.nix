@@ -18,7 +18,6 @@
   subxt-cli = pkgs.callPackage ./subxt-cli { };
   try-runtime-cli = pkgs.callPackage ./try-runtime-cli { };
   zepter = pkgs.callPackage ./zepter { };
-  zombienet = pkgs.zombienet.default;
   zombienet-cli = pkgs.callPackage ./zombienet-sdk/zombienet-cli.nix { };
   zombienet-tui = pkgs.callPackage ./zombienet-sdk/zombienet-tui.nix { };
 }

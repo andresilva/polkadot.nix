@@ -22,7 +22,6 @@
 - [subxt-cli](https://github.com/paritytech/subxt/tree/master/cli)
 - [try-runtime-cli](https://github.com/paritytech/try-runtime-cli)
 - [zepter](https://github.com/ggwpez/zepter)
-- [zombienet](https://github.com/paritytech/zombienet)
 - [zombienet-sdk](https://github.com/paritytech/zombienet-sdk)
   - [zombienet-cli](https://github.com/paritytech/zombienet-sdk/tree/main/crates/cli)
   - [zombienet-tui](https://github.com/paritytech/zombienet-sdk/tree/main/crates/tui)
@@ -132,7 +131,7 @@ You can also integrate it into a flake and override it with more packages:
     in
     {
       devShells.${system}.default = polkadot.devShells.${system}.default.overrideAttrs (attrs: {
-        nativeBuildInputs = with pkgs; attrs.nativeBuildInputs ++ [ zombienet ];
+        nativeBuildInputs = with pkgs; attrs.nativeBuildInputs ++ [ zepter ];
       });
     };
 }
