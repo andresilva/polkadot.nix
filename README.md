@@ -23,6 +23,9 @@
 - [try-runtime-cli](https://github.com/paritytech/try-runtime-cli)
 - [zepter](https://github.com/ggwpez/zepter)
 - [zombienet](https://github.com/paritytech/zombienet)
+- [zombienet-sdk](https://github.com/paritytech/zombienet-sdk)
+  - [zombienet-cli](https://github.com/paritytech/zombienet-sdk/tree/main/crates/cli)
+  - [zombienet-tui](https://github.com/paritytech/zombienet-sdk/tree/main/crates/tui)
 
 ## Usage
 
