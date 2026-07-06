@@ -17,7 +17,7 @@
   stdenv,
 }:
 
-rustPlatform.buildRustPackage rec {
+rustPlatform.buildRustPackage (finalAttrs: {
   inherit pname;
 
   version = "2606";
@@ -25,7 +25,7 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "polkadot-sdk";
-    rev = "polkadot-stable${version}";
+    rev = "polkadot-stable${finalAttrs.version}";
     hash = "sha256-SrClyKofbMrJ2U4OkhKZX/YcptpcDDn3YJ8j9Er9auw=";
 
     # the build process of polkadot requires a .git folder in order to determine
@@ -64,7 +64,7 @@ rustPlatform.buildRustPackage rec {
     rustc.llvmPackages.lld
   ];
 
-  # NOTE: jemalloc is used by default on Linux
+  # NOTE: jemalloc is used by default on Linux with unprefixed enabled
   buildInputs = [
     openssl
   ]
@@ -74,9 +74,11 @@ rustPlatform.buildRustPackage rec {
     cacert
   ];
 
-  OPENSSL_NO_VENDOR = 1;
-  PROTOC = "${protobuf}/bin/protoc";
-  ROCKSDB_LIB_DIR = "${rocksdb}/lib";
+  env = {
+    OPENSSL_NO_VENDOR = 1;
+    PROTOC = "${protobuf}/bin/protoc";
+    ROCKSDB_LIB_DIR = "${rocksdb}/lib";
+  };
 
   meta = with lib; {
     inherit description license;
@@ -88,4 +90,4 @@ rustPlatform.buildRustPackage rec {
       platforms.aarch64 ++ platforms.s390x ++ platforms.riscv64 ++ platforms.x86
     );
   };
-}
+})
