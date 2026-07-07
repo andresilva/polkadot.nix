@@ -6,16 +6,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "subxt-cli";
-  version = "0.50.0";
+  version = "0.50.1";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "subxt";
     rev = "v${version}";
-    hash = "sha256-nMal78+TYZ1f9X/YZhsqOsEIrjxhi9fEcevnQW8u97o=";
+    hash = "sha256-Ley7pjWNrAktLegsbuclTnlb/DNqhFD9GHiLNYNl7fw=";
   };
 
-  cargoHash = "sha256-sqspcTwODoRzaaUSXT+2yPUTzUqcW1gNu0c1Lv9D1u0=";
+  cargoHash = "sha256-M/lnPU0HfVQ9uOQ34W1I/VmNzv42VFb/mh4a7hiPBCY=";
 
   buildAndTestSubdir = "cli";
 
