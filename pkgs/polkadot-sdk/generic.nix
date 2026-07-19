@@ -6,6 +6,7 @@
 
   cacert,
   fetchFromGitHub,
+  fetchpatch,
   lib,
   openssl,
   pkg-config,
@@ -50,6 +51,17 @@ rustPlatform.buildRustPackage (finalAttrs: {
   cargoPatches = [
     # make picosimd compile on nix (https://github.com/koute/picosimd/pull/3)
     ./picosimd-0.9.3.patch
+  ];
+
+  patches = [
+    # fix wasm runtime linking with rust >= 1.96, where rustc no longer passes
+    # --allow-undefined to wasm-ld and host functions must be declared with an
+    # explicit wasm import module (https://github.com/paritytech/polkadot-sdk/pull/12440).
+    # NOTE: can be dropped once we update to a release that includes the fix.
+    (fetchpatch {
+      url = "https://github.com/paritytech/polkadot-sdk/commit/601bb0c22905a875c11ea76f7dd1e5fcb15fe195.patch";
+      hash = "sha256-RbohGbaenTFotRB1bFhRSwYMq4vcgl3+N767J1yGD3Y=";
+    })
   ];
 
   cargoHash = "sha256-iG0buRE+F65F6ZaBE8TT6JmgqPtSb1gLmugh6TxcLIk=";
