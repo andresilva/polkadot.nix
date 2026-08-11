@@ -36,10 +36,11 @@ let
     with pkgs;
     let
       rustTarget = stdenv.hostPlatform.rust.cargoEnvVarTarget;
+      mkLinkerFlags = ld: "-Clink-arg=-fuse-ld=${ld} -Clink-arg=-Wl,--no-rosegment -Clink-arg=-flto";
       linkerFlags = {
-        lld = "-Clink-arg=-fuse-ld=${llvmPackages.lld}/bin/ld.lld -Clink-arg=-Wl,--no-rosegment";
-        mold = "-Clink-arg=-fuse-ld=${mold}/bin/ld.mold -Clink-arg=-Wl,--no-rosegment -Clink-arg=-flto";
-        wild = "-Clink-arg=-fuse-ld=${wild}/bin/ld.wild -Clink-arg=-flto";
+        lld = mkLinkerFlags "${llvmPackages.lld}/bin/ld.lld";
+        mold = mkLinkerFlags "${mold}/bin/ld.mold";
+        wild = mkLinkerFlags "${wild}/bin/ld.wild";
       };
       rustflags =
         if stdenv.isDarwin then
