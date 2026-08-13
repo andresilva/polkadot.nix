@@ -43,7 +43,7 @@ let
         wild = mkLinkerFlags "${wild}/bin/ld.wild";
       };
       rustflags =
-        if stdenv.isDarwin then
+        if stdenv.hostPlatform.isDarwin then
           "-Clink-arg=-fuse-ld=${llvmPackages_latest.lld}/bin/ld64.lld"
         else
           linkerFlags.${linker};
