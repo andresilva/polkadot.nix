@@ -5,6 +5,7 @@
   linker ? "wild",
   packages ? [ ],
   env ? { },
+  shellHook ? "",
 }:
 
 assert pkgs.lib.assertOneOf "channel" channel [
@@ -55,6 +56,8 @@ let
 in
 with pkgs;
 mkShell.override { stdenv = llvmPackages_latest.stdenv; } {
+  inherit shellHook;
+
   packages =
     packages
     ++ [
