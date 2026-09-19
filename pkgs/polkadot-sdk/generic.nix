@@ -6,7 +6,6 @@
 
   cacert,
   fetchFromGitHub,
-  fetchpatch,
   lib,
   openssl,
   pkg-config,
@@ -21,13 +20,13 @@
 rustPlatform.buildRustPackage (finalAttrs: {
   inherit pname;
 
-  version = "2606-1";
+  version = "2606-2";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "polkadot-sdk";
     rev = "polkadot-stable${finalAttrs.version}";
-    hash = "sha256-7DvmMPQ+mjHZ7XNxzZM5PWCOXYyK972OeHaM9z9FvHY=";
+    hash = "sha256-Pwu+l4DaS/37yegNedNm3yZHBPng8ECdECdDq/XkWjs=";
 
     # the build process of polkadot requires a .git folder in order to determine
     # the git commit hash that is being built and add it to the version string.
@@ -53,18 +52,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     ./picosimd-0.9.3.patch
   ];
 
-  patches = [
-    # fix wasm runtime linking with rust >= 1.96, where rustc no longer passes
-    # --allow-undefined to wasm-ld and host functions must be declared with an
-    # explicit wasm import module (https://github.com/paritytech/polkadot-sdk/pull/12440).
-    # NOTE: can be dropped once we update to a release that includes the fix.
-    (fetchpatch {
-      url = "https://github.com/paritytech/polkadot-sdk/commit/601bb0c22905a875c11ea76f7dd1e5fcb15fe195.patch";
-      hash = "sha256-RbohGbaenTFotRB1bFhRSwYMq4vcgl3+N767J1yGD3Y=";
-    })
-  ];
-
-  cargoHash = "sha256-9gv5bTMKcSwSk6mnwdsodXcRz+u4b11QRxW6LYtef+c=";
+  cargoHash = "sha256-2YXF6bcsSuhtdPASAb3KKQ7+y1nFeUVziDug6/PJOSk=";
 
   buildType = "production";
   buildAndTestSubdir = target;
