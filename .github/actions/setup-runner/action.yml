@@ -17,7 +17,6 @@ runs:
         echo 0 | sudo tee /sys/module/zswap/parameters/enabled >/dev/null
         echo 40 | sudo tee /sys/module/zswap/parameters/max_pool_percent >/dev/null
         echo zstd | sudo tee /sys/module/zswap/parameters/compressor >/dev/null
-        echo zsmalloc | sudo tee /sys/module/zswap/parameters/zpool >/dev/null
         echo 1 | sudo tee /sys/module/zswap/parameters/shrinker_enabled >/dev/null
         echo 1 | sudo tee /sys/module/zswap/parameters/enabled >/dev/null
         sudo sysctl vm.swappiness=80
