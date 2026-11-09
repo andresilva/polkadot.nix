@@ -15,6 +15,7 @@
   rustPlatform,
   rustc,
   stdenv,
+  zstd,
 }:
 
 rustPlatform.buildRustPackage (finalAttrs: {
@@ -62,6 +63,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   # NOTE: jemalloc is used by default on Linux with unprefixed enabled
   buildInputs = [
     openssl
+    zstd
   ]
   ++ lib.optionals stdenv.hostPlatform.isLinux [ rust-jemalloc-sys-unprefixed ];
 
