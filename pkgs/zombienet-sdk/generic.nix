@@ -9,6 +9,7 @@
   openssl,
   pkg-config,
   protobuf,
+  zstd,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -34,6 +35,7 @@ rustPlatform.buildRustPackage rec {
 
   buildInputs = [
     openssl
+    zstd
   ];
 
   PROTOC = "${protobuf}/bin/protoc";

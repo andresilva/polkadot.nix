@@ -3,10 +3,12 @@
   stdenv,
   fetchFromGitHub,
   rustPlatform,
+  pkg-config,
   protobuf,
   rocksdb,
   rustc,
   rust-jemalloc-sys-unprefixed,
+  zstd,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -29,12 +31,16 @@ rustPlatform.buildRustPackage rec {
   cargoHash = "sha256-MnOM9XXpIopn0IXprjZvInjhVKVlExkqQuCPBMPsVfo=";
 
   nativeBuildInputs = [
+    pkg-config
     rustPlatform.bindgenHook
     rustc
     rustc.llvmPackages.lld
   ];
 
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ rust-jemalloc-sys-unprefixed ];
+  buildInputs = [
+    zstd
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isLinux [ rust-jemalloc-sys-unprefixed ];
 
   doCheck = false;
 

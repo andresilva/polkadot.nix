@@ -4,6 +4,7 @@
   rustPlatform,
   openssl,
   pkg-config,
+  zstd,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -38,7 +39,10 @@ rustPlatform.buildRustPackage rec {
   cargoHash = "sha256-+onXj9uQP/RvjFygV8WEDj+A1rR5tHZ8kPG/uAdOH3M=";
 
   nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ openssl ];
+  buildInputs = [
+    openssl
+    zstd
+  ];
 
   doCheck = false;
 
