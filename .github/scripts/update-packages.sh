@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Updates flake packages with nix-update, creating one commit per updated package.
 #
-# Usage: scripts/update-packages.sh [package...]
+# Usage: ./update-packages.sh [package...]
 #
 # Updates all packages when none are given.
 

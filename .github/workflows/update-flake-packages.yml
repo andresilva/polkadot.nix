@@ -19,7 +19,7 @@ jobs:
           GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: github-actions[bot]
           GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
-        run: nix shell --inputs-from . nixpkgs#nix-update --command scripts/update-packages.sh
+        run: nix shell --inputs-from . nixpkgs#nix-update --command .github/scripts/update-packages.sh
       # the steps below run even if some packages failed to update, so that the
       # others still get a PR (the job is still marked as failed)
       - name: Describe updates
