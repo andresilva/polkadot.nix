@@ -12,8 +12,40 @@ jobs:
       - name: Install nix
         uses: cachix/install-nix-action@v31
       - name: Update flake packages
-        uses: andresilva/nix-update-action@main
+        env:
+          # used by nix-update's --use-github-releases
+          GITHUB_TOKEN: ${{ github.token }}
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+        run: nix shell --inputs-from . nixpkgs#nix-update --command scripts/update-packages.sh
+      # the steps below run even if some packages failed to update, so that the
+      # others still get a PR (the job is still marked as failed)
+      - name: Describe updates
+        id: describe
+        if: ${{ !cancelled() }}
+        run: |
+          # one "<pkg>: <old> -> <new>" commit per updated package
+          mapfile -t subjects < <(git log --reverse --format=%s "$GITHUB_SHA..HEAD")
+          if ((${#subjects[@]} == 0)); then
+            exit 0
+          fi
+          printf -v pkgs '%s, ' "${subjects[@]%%:*}"
+          {
+            echo "title=bot: update ${pkgs%, }"
+            echo "body<<EOF"
+            echo 'Automated package updates by the "Update flake packages ❄️" workflow.'
+            echo
+            printf -- '- %s\n' "${subjects[@]}"
+            echo "EOF"
+          } >>"$GITHUB_OUTPUT"
+      - name: Create pull request
+        if: ${{ !cancelled() }}
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GH_TOKEN }}
-          blacklist: "polkadot,polkadot-omni-node,polkadot-parachain,chain-spec-builder,frame-omni-bencher,subkey"
-          pr-title: "bot: update packages"
+          branch: bot/update-packages
+          delete-branch: true
+          title: ${{ steps.describe.outputs.title }}
+          body: ${{ steps.describe.outputs.body }}
