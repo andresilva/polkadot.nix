@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Install nix
         uses: cachix/install-nix-action@v31
       - name: Discover flake packages
@@ -35,7 +35,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Setup runner
         uses: ./.github/actions/setup-runner
         with:
@@ -47,7 +47,7 @@ jobs:
           echo "Using $CORES cores."
           nix build -L --cores "$CORES" ".#${{ matrix.pkg }}"
       - name: Publish to FlakeHub
-        uses: DeterminateSystems/flakehub-push@v6
+        uses: DeterminateSystems/flakehub-push@v7
         with:
           name: "andresilva/polkadot.nix"
           rolling: true
@@ -60,7 +60,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Setup runner
         uses: ./.github/actions/setup-runner
         with:
@@ -68,7 +68,7 @@ jobs:
       - name: Nix flake develop
         run: nix develop
       - name: Publish to FlakeHub
-        uses: DeterminateSystems/flakehub-push@v6
+        uses: DeterminateSystems/flakehub-push@v7
         with:
           name: "andresilva/polkadot.nix"
           rolling: true
