@@ -19,7 +19,9 @@ jobs:
           GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: github-actions[bot]
           GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
-        run: nix shell --inputs-from . nixpkgs#nix-update --command .github/scripts/update-packages.sh
+        # TODO: nix-update with the fix for Nix >= 2.35 (Mic92/nix-update#692).
+        # Go back to upstream once it's released.
+        run: nix shell github:amadejkastelic/nix-update/d545c1fad667e573128cad0db55fdc77134a4d3c --command .github/scripts/update-packages.sh
       # the steps below run even if some packages failed to update, so that the
       # others still get a PR (the job is still marked as failed)
       - name: Describe updates
