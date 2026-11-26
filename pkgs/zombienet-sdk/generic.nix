@@ -15,16 +15,16 @@
 rustPlatform.buildRustPackage rec {
   inherit pname;
 
-  version = "0.7.2";
+  version = "0.7.3";
 
   src = fetchFromGitHub {
     owner = "paritytech";
     repo = "zombienet-sdk";
     rev = "v${version}";
-    hash = "sha256-KSNMoDBHjxghzZxl2W1WYanE0qcCWUENQ+UonEon9jw=";
+    hash = "sha256-8NeuiKE/MH7FeBN89/1QEk+MZM9ytV7UPWUfLvj1mt0=";
   };
 
-  cargoHash = "sha256-RsTWMPo87BmUaUEBpXHQtvKK8p4tLu/UondGqCf3cpE=";
+  cargoHash = "sha256-St59rWUOp30eLLw4KW2TjTcZ5JtAZObHvyYHdxCNkrY=";
 
   buildAndTestSubdir = target;
 
